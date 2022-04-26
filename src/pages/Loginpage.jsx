@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hook/useAuth.js';
 
 function Loginpage() {
+  const { logIn } = useAuth();
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
+
   const formik = useFormik({
     initialValues: {
-      name: '',
+      username: '',
       password: '',
     },
     validationSchema: yup.object({
-      name: yup.string()
+      username: yup.string()
         .max(15, 'Must be 15 characters or less')
         .required('Required'),
       password: yup.string()
@@ -18,22 +25,30 @@ function Loginpage() {
     }),
     onSubmit: (values) => {
       console.log(values);
+      axios.post('/api/v1/login', values)
+        .then((res) => {
+          localStorage.setItem('userId', JSON.stringify(res.data));
+          setErrors([]);
+          logIn();
+          navigate('/');
+        })
+        .catch(() => setErrors(['Password/login is incorrect']));
     },
   });
   return (
     <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="name">Ваш ник</label>
-      <input 
-        id="name"
-        name="name"
+      <label htmlFor="username">Ваш ник</label>
+      <input
+        id="username"
+        name="username"
         type="text"
         onChange={formik.handleChange}
-        value={formik.values.name}
+        value={formik.values.username}
         onBlur={formik.handleBlur}
       />
       {formik.touched.name && formik.errors.name ? (
-         <div>{formik.errors.name}</div>
-       ) : null}
+        <div>{formik.errors.name}</div>
+      ) : null}
       <label htmlFor="password">Пароль</label>
       <input
         id="password"
@@ -44,9 +59,10 @@ function Loginpage() {
         onBlur={formik.handleBlur}
       />
       {formik.touched.password && formik.errors.password ? (
-         <div>{formik.errors.password}</div>
-       ) : null}
+        <div>{formik.errors.password}</div>
+      ) : null}
       <button type="submit">Войти</button>
+      {errors.length === 0 ? null : <div>{errors.map((error) => error)}</div>}
     </form>
   );
 }
