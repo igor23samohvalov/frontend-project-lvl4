@@ -1,0 +1,13 @@
+body > .container-fluid {
+  background-color: #f8f9fa;
+  height: 100vh;
+}
+
+.list-group {
+  border-radius: 0px;
+}
+
+.list-group-item.active {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}

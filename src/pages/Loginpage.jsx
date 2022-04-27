@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Container, Card, Row, Col, Form, Button, FloatingLabel } from 'react-bootstrap';
 import useAuth from '../hook/useAuth.js';
 
 function Loginpage() {
@@ -36,34 +37,60 @@ function Loginpage() {
     },
   });
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="username">Ваш ник</label>
-      <input
-        id="username"
-        name="username"
-        type="text"
-        onChange={formik.handleChange}
-        value={formik.values.username}
-        onBlur={formik.handleBlur}
-      />
-      {formik.touched.name && formik.errors.name ? (
-        <div>{formik.errors.name}</div>
-      ) : null}
-      <label htmlFor="password">Пароль</label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        onChange={formik.handleChange}
-        value={formik.values.password}
-        onBlur={formik.handleBlur}
-      />
-      {formik.touched.password && formik.errors.password ? (
-        <div>{formik.errors.password}</div>
-      ) : null}
-      <button type="submit">Войти</button>
-      {errors.length === 0 ? null : <div>{errors.map((error) => error)}</div>}
-    </form>
+    <Card style={{ width: '60rem', height: '30rem' }} className="shadow-sm">
+      <Container fluid style={{ height: '100%', padding: '0px 12px'}}>
+        <Row style={{ height: '85%' }} className="align-items-center">
+          <Col>
+          </Col>
+          <Col>
+            <h1 style={{ textAlign: 'center'}}>Войти</h1>
+            <Form onSubmit={formik.handleSubmit} noValidate>
+              <Form.Group md="4" controlId="validationFormikUsername">
+                <FloatingLabel label="Ваш ник" className="mb-3">
+                  <Form.Control
+                    id="username"
+                    name="username"
+                    type="text"
+                    onChange={formik.handleChange}
+                    value={formik.values.username}
+                    onBlur={formik.handleBlur}
+                    placeholder="Ваш ник"
+                    isInvalid={formik.touched.username && formik.errors.username}
+                  />
+                  <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
+                </FloatingLabel>
+              </Form.Group>
+              <Form.Group md="4" controlId="validationFormikPassword">
+                <FloatingLabel label="Пароль" className="mb-3">
+                  <Form.Control
+                    id="password"
+                    name="password"
+                    type="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    onBlur={formik.handleBlur}
+                    placeholder="Пароль"
+                    isInvalid={formik.touched.password && formik.errors.password}
+                  />
+                  <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
+                </FloatingLabel>
+              </Form.Group>
+              <Form.Group className="d-grid gap-2">
+                <Button variant="outline-primary" size="md" type="submit">Войти</Button>
+                {/* {errors.length === 0 
+                  ? null
+                  : <Form.Control.Feedback>{errors.map((error) => error)}</Form.Control.Feedback>} */}
+              </Form.Group>
+            </Form>
+          </Col>
+        </Row>
+        <Row style={{ height: '15%', backgroundColor: '#f7f7f7' }} className="justify-content-md-center align-items-center">
+          <Col md="auto">
+            Нет аккаунта? Регистрация
+          </Col>
+        </Row>
+      </Container>
+    </Card>
   );
 }
 

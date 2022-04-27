@@ -1,7 +1,7 @@
 // @ts-check
 
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
 
@@ -21,9 +21,9 @@ module.exports = {
     // publicPath: '/assets/',
     historyApiFallback: true,
   },
-  plugins: [
-    new MiniCssExtractPlugin(),
-  ],
+  // plugins: [
+  //   new MiniCssExtractPlugin(),
+  // ],
   module: {
     rules: [
       {
@@ -32,10 +32,12 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.(sass|less|css)$/,
         use: [
-          { loader: MiniCssExtractPlugin.loader },
+          // { loader: MiniCssExtractPlugin.loader },
+          { loader: 'style-loader' },
           { loader: 'css-loader' },
+          { loader: 'less-loader' },
           { loader: 'postcss-loader' },
           { loader: 'sass-loader' },
         ],
