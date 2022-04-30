@@ -1,13 +1,16 @@
-import { createContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 export const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [isLogged, setLogState] = useState(false);
   const logIn = () => setLogState(true);
   const logOut = () => setLogState(false);
 
-  const value = { isLogged, logIn, logOut };
+  const [activeChannel, setActiveChannel] = useState(1);
+  const setActiveChn = (id) => setActiveChannel(id);
+
+  const value = { isLogged, logIn, logOut, activeChannel, setActiveChn };
 
   return (
     <AuthContext.Provider value={value}>

@@ -4,14 +4,22 @@ import { useSelector } from 'react-redux';
 import { selectors as channelSelectors } from '../slices/channelsSlice.js';
 import Channel from './Channel.jsx';
 
-function Channels() {
+function Channels({ socket }) {
   const initChannels = useSelector(channelSelectors.selectAll);
-  console.log(initChannels)
+
   return (
-    <ListGroup as="ul">
-      {initChannels.map(({name, id}) => <Channel name={name} key={id} />)}
+    <ListGroup as="ul" variant="flush">
+      {initChannels.map(({ name, id, removable }) => (
+        <Channel
+          name={name}
+          key={id}
+          channelId={id}
+          isRemovable={removable}
+          socket={socket}
+        />
+      ))}
     </ListGroup>
-  )
+  );
 }
 
 export default Channels;

@@ -3,8 +3,9 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, Card, Row, Col, Form, Button, FloatingLabel } from 'react-bootstrap';
+import { Container, Card, Row, Col, Form, Button, FloatingLabel, Image } from 'react-bootstrap';
 import useAuth from '../hook/useAuth.js';
+// import logo from '../imgs/hexlet_chat.jpg';
 
 function Loginpage() {
   const { logIn } = useAuth();
@@ -25,7 +26,6 @@ function Loginpage() {
         .required('Required'),
     }),
     onSubmit: (values) => {
-      console.log(values);
       axios.post('/api/v1/login', values)
         .then((res) => {
           localStorage.setItem('userId', JSON.stringify(res.data));
@@ -40,10 +40,11 @@ function Loginpage() {
     <Card style={{ width: '60rem', height: '30rem' }} className="shadow-sm">
       <Container fluid style={{ height: '100%', padding: '0px 12px'}}>
         <Row style={{ height: '85%' }} className="align-items-center">
-          <Col>
+          <Col className="text-center">
+            <Image roundedCircle="true" src="../imgs/hexlet_chat.jpg" />
           </Col>
-          <Col>
-            <h1 style={{ textAlign: 'center'}}>Войти</h1>
+          <Col className="text-center">
+            <h1>Войти</h1>
             <Form onSubmit={formik.handleSubmit} noValidate>
               <Form.Group md="4" controlId="validationFormikUsername">
                 <FloatingLabel label="Ваш ник" className="mb-3">
@@ -86,7 +87,8 @@ function Loginpage() {
         </Row>
         <Row style={{ height: '15%', backgroundColor: '#f7f7f7' }} className="justify-content-md-center align-items-center">
           <Col md="auto">
-            Нет аккаунта? Регистрация
+            Нет аккаунта?
+            <a href="/login">Регистрация</a>
           </Col>
         </Row>
       </Container>

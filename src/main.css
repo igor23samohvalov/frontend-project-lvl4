@@ -8,6 +8,11 @@ body > .container-fluid {
 }
 
 .list-group-item.active {
-  background-color: #6c757d;
-  border-color: #6c757d;
+  /* background-color: #6c757d; */
+  border-color: transparent;
+  
 }
+
+/* .btn.splitButton {
+  border: 2px solid blue;
+} */

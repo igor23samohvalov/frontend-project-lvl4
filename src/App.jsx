@@ -7,13 +7,14 @@ import Chatpage from './pages/Chatpage.jsx';
 import Loginpage from './pages/Loginpage.jsx';
 import Notfoundpage from './pages/Notfoundpage.jsx';
 import { AuthProvider } from './hoc/AuthProvider.jsx';
+import RequireAuth from './hoc/RequireAuth.jsx';
 
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Header />}>
-          <Route path="/" element={<Chatpage />} />
+          <Route path="/" element={<RequireAuth><Chatpage /></RequireAuth>} />
           <Route path="/login" element={<Loginpage />} />
           <Route path="/*" element={<Notfoundpage />} />
         </Route>
