@@ -15,7 +15,11 @@ function Header() {
       <Row style={{ height: '5%' }}>
         <Navbar bg="white" className="shadow-sm">
           <Container>
-            <NavLink to="/"><Navbar.Brand>Hexlet Chat</Navbar.Brand></NavLink>
+            <NavLink to="/" style={{ textDecoration: 'none' }}>
+              <Navbar.Brand>
+                Hexlet Chat
+              </Navbar.Brand>
+            </NavLink>
             {isLogged
               ? <Button variant="primary" className="align-self-end" onClick={handleClick}>Выйти</Button>
               : null}

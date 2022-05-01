@@ -22,7 +22,7 @@ function Channel({ name, channelId = 1, socket, isRemovable }) {
       <ListGroup.Item as="li" className={classes} onClick={toggleChannel}>
         <Button
           variant={activeChannel === channelId ? 'secondary' : 'light-grey'}
-          style={{ width: '100%'}}
+          style={{ width: '100%' }}
         >
           {`# ${name}`}
         </Button>
