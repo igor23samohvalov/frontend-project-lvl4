@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { selectors as channelSelectors } from '../slices/channelsSlice.js';
 
 function isNameTaken(name, array) {
@@ -12,12 +13,13 @@ function isNameTaken(name, array) {
 function AddModal({ show, onHide, ap }) {
   const channels = useSelector(channelSelectors.selectAll);
   const errors = {};
+  const { t } = useTranslation();
 
   const validate = ({ newChannel }, props) => {
     if (!newChannel) {
-      errors.newChannel = 'Required';
+      errors.newChannel = t('required');
     } else if (isNameTaken(newChannel, channels)) {
-      errors.newChannel = 'This name is already taken';
+      errors.newChannel = t('errorNameTaken');
     }
 
     return errors;
@@ -38,7 +40,7 @@ function AddModal({ show, onHide, ap }) {
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -56,10 +58,10 @@ function AddModal({ show, onHide, ap }) {
             </Form.Control.Feedback>
           </Form.Group>
           <Button variant="secondary" onClick={onHide}>
-            Отменить
+            {t('cancel')}
           </Button>
           <Button variant="primary" type="submit">
-            Отправить
+            {t('submit')}
           </Button>
         </Form>
       </Modal.Body>

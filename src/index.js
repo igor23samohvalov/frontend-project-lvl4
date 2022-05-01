@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 // @ts-ignore
 import App from './App.jsx';
 import store from './slices/index.js';
-
+import './hook/i18n.js';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';

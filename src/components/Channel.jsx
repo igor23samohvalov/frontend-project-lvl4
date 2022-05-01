@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { SplitButton, ListGroup, Dropdown, Button } from 'react-bootstrap';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hook/useAuth.js';
 import RnmModal from '../modals/RnmModal.jsx';
 import RemoveModal from '../modals/RemoveModal.jsx';
 
 function Channel({ name, channelId = 1, socket, isRemovable }) {
   const { activeChannel, setActiveChn } = useAuth();
+  const { t } = useTranslation();
 
   const [isRnmModal, setRnmModal] = useState(false);
   const [isRemoveModal, setRemoveModal] = useState(false);
@@ -42,13 +44,13 @@ function Channel({ name, channelId = 1, socket, isRemovable }) {
           onClick={() => setRemoveModal(true)}
           eventKey="1"
         >
-          Удалить
+          {t('remove')}
         </Dropdown.Item>
         <Dropdown.Item
           eventKey="2"
           onClick={() => setRnmModal(true)}
         >
-          Переименовать
+          {t('rename')}
         </Dropdown.Item>
       </SplitButton>
       <RnmModal

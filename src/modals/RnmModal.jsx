@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { selectors as channelSelectors } from '../slices/channelsSlice.js';
 
 function isNameTaken(name, array) {
@@ -13,13 +14,14 @@ function RnmModal(props) {
   // eslint-disable-next-line object-curly-newline
   const { show, onHide, id, ap } = props;
   const channels = useSelector(channelSelectors.selectAll);
+  const { t } = useTranslation();
   const errors = {};
 
   const validate = ({ renamedChannel }, props) => {
     if (!renamedChannel) {
-      errors.renamedChannel = 'Required';
+      errors.renamedChannel = t('required');
     } else if (isNameTaken(renamedChannel, channels)) {
-      errors.renamedChannel = 'This name is already taken';
+      errors.renamedChannel = t('errorNameTaken');
     }
 
     return errors;
@@ -41,7 +43,7 @@ function RnmModal(props) {
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -59,10 +61,10 @@ function RnmModal(props) {
             </Form.Control.Feedback>
           </Form.Group>
           <Button variant="secondary" onClick={onHide}>
-            Отменить
+            {t('cancel')}
           </Button>
           <Button variant="primary" type="submit">
-            Отправить
+            {t('submit')}
           </Button>
         </Form>
       </Modal.Body>

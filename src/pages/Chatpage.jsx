@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { io } from 'socket.io-client';
 import { Card, Col, Container, Row, Button, Form, InputGroup } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import Channels from '../components/Channels.jsx';
@@ -17,6 +18,7 @@ function Chatpage() {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { activeChannel, setActiveChn, logOut } = useAuth();
+  const { t } = useTranslation();
   const socket = io('http://localhost:5000');
 
   const [isAddModal, setAddModal] = useState(false);
@@ -73,7 +75,7 @@ function Chatpage() {
     validationSchema: yup.object({
       message: yup.mixed()
         .nullable()
-        .required(),
+        .required(t('required')),
     }),
     onSubmit: (values) => {
       socket.emit('newMessage', {
@@ -90,7 +92,7 @@ function Chatpage() {
         <Row style={{ height: '100%', backgroundColor: '#f7f7f7' }}>
           <Col xs={2}>
             <Row className="text-center">
-              <Col xs={8}><p>Каналы</p></Col>
+              <Col xs={8}><p>{t('channels')}</p></Col>
               <Col>
                 <Button
                   variant="outline-primary"
@@ -120,7 +122,7 @@ function Chatpage() {
                     name="message"
                     onChange={formik.handleChange}
                     value={formik.values.message}
-                    placeholder="Введите сообщение..."
+                    placeholder={t('messageInput')}
                     isInvalid={formik.errors.message}
                   />
                   <Form.Control.Feedback type="invalid">{formik.errors.message}</Form.Control.Feedback>

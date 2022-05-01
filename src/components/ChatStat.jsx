@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { selectors as channelSelectors } from '../slices/channelsSlice.js';
 import { selectors as messageSelectors } from '../slices/messagesSlice.js';
 import useAuth from '../hook/useAuth.js';
@@ -8,6 +9,7 @@ import useAuth from '../hook/useAuth.js';
 function ChatStat() {
   const initChannels = useSelector(channelSelectors.selectAll);
   const initMessages = useSelector(messageSelectors.selectAll);
+  const { t } = useTranslation();
   const { activeChannel } = useAuth();
 
   function getMessageNum(msgs) {
@@ -15,7 +17,7 @@ function ChatStat() {
       return 0;
     }
 
-    return `${msgs.filter(({ channelId }) => channelId === activeChannel).length} сообщений`;
+    return `${msgs.filter(({ channelId }) => channelId === activeChannel).length} ${t('msgsNum')}`;
   }
   function getCurrentChannel(chnls) {
     if (chnls.length === 0) {

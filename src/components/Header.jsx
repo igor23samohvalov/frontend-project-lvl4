@@ -1,11 +1,13 @@
 import React from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { Navbar, Container, Row, Col, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hook/useAuth.js';
 
 function Header() {
   // const navigate = useNavigate();
   const { isLogged, logOut } = useAuth();
+  const { t } = useTranslation();
   const handleClick = () => {
     logOut();
   };
@@ -21,7 +23,7 @@ function Header() {
               </Navbar.Brand>
             </NavLink>
             {isLogged
-              ? <Button variant="primary" className="align-self-end" onClick={handleClick}>Выйти</Button>
+              ? <Button variant="primary" className="align-self-end" onClick={handleClick}>{t('logOut')}</Button>
               : null}
           </Container>
         </Navbar>
