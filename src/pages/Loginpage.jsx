@@ -5,15 +5,15 @@ import axios from 'axios';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { Container, Card, Row, Col, Form, Button, FloatingLabel, Image } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
 import useAuth from '../hook/useAuth.js';
 import logImage from '../assets/images/hexlet_chat.jpg';
 
 function Loginpage() {
   const { logIn } = useAuth();
   const navigate = useNavigate();
-  const [errors, setErrors] = useState([]);
   const { t } = useTranslation();
-
+  const notify = (phrase) => toast.error(phrase);
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -29,11 +29,10 @@ function Loginpage() {
       axios.post('/api/v1/login', values)
         .then((res) => {
           localStorage.setItem('userId', JSON.stringify(res.data));
-          setErrors([]);
           logIn();
           navigate('/');
         })
-        .catch(() => setErrors(['Password/login is incorrect']));
+        .catch(() => notify('Login or password are incorrect'));
     },
   });
   return (
@@ -78,9 +77,6 @@ function Loginpage() {
               </Form.Group>
               <Form.Group className="d-grid gap-2">
                 <Button variant="outline-primary" size="md" type="submit">{t('logIn')}</Button>
-                {/* {errors.length === 0 
-                  ? null
-                  : <Form.Control.Feedback>{errors.map((error) => error)}</Form.Control.Feedback>} */}
               </Form.Group>
             </Form>
           </Col>
@@ -92,6 +88,7 @@ function Loginpage() {
           </Col>
         </Row>
       </Container>
+      <ToastContainer />
     </Card>
   );
 }

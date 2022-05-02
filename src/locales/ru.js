@@ -26,5 +26,10 @@ export default {
     confirm: 'Уверены?',
     remove: 'Удалить',
     renameChannel: 'Переименовать канал',
+    successAddChannel: 'Канал добавлен',
+    successRemoveChannel: 'Канал удалён',
+    successRenameChannel: 'Канал переименован',
+    incorrectLogs: 'Некорректные логин или пароль',
+    networkError: 'Ошибка сети',
   },
 };

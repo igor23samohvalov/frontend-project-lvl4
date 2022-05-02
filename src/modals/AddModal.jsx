@@ -12,8 +12,8 @@ function isNameTaken(name, array) {
 
 function AddModal({ show, onHide, ap }) {
   const channels = useSelector(channelSelectors.selectAll);
-  const errors = {};
   const { t } = useTranslation();
+  const errors = {};
 
   const validate = ({ newChannel }, props) => {
     if (!newChannel) {
@@ -65,6 +65,7 @@ function AddModal({ show, onHide, ap }) {
           </Button>
         </Form>
       </Modal.Body>
+      <ToastContainer />
     </Modal>
   );
 }

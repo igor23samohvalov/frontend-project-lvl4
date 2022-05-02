@@ -26,5 +26,10 @@ export default {
     confirm: 'Are you sure?',
     remove: 'Remove',
     renameChannel: 'Rename channel',
+    successAddChannel: 'Channel is added',
+    successRemoveChannel: 'Channel is removed',
+    successRenameChannel: 'CHannel is renamed',
+    incorrectLogs: 'Login or password are incorrect',
+    networkError: 'Network error, try again later',
   },
 };

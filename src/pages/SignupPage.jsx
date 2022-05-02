@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Card, Row, Col, Form, Button, FloatingLabel, Image } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
 import useAuth from '../hook/useAuth.js';
 import signImage from '../assets/images/hexlet_chat.jpg';
 
@@ -12,6 +13,7 @@ function SignupPage() {
   const navigate = useNavigate();
   const { logIn } = useAuth();
   const { t } = useTranslation();
+  const notify = (phrase) => toast.error(phrase);
 
   const formik = useFormik({
     initialValues: {
@@ -37,7 +39,8 @@ function SignupPage() {
           localStorage.setItem('userId', JSON.stringify(res.data));
           logIn();
           navigate('/');
-        });
+        })
+        .catch(() => notify(t('networkError')));
     },
   });
   return (
@@ -102,6 +105,7 @@ function SignupPage() {
           </Col>
         </Row>
       </Container>
+      <ToastContainer />
     </Card>
   );
 }

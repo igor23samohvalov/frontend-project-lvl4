@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { io } from 'socket.io-client';
 import { Card, Col, Container, Row, Button, Form, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import Channels from '../components/Channels.jsx';
@@ -15,10 +16,10 @@ import ChatStat from '../components/ChatStat.jsx';
 import AddModal from '../modals/AddModal.jsx';
 
 function Chatpage() {
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { activeChannel, setActiveChn, logOut } = useAuth();
   const { t } = useTranslation();
+  const notify = (phrase) => toast.success(phrase);
   const socket = io('http://localhost:5000');
 
   const [isAddModal, setAddModal] = useState(false);
@@ -56,15 +57,18 @@ function Chatpage() {
       console.log(`${channel.name} is added to the list`);
       dispatch(channelsActions.addChannel(channel));
       setActiveChn(channel.id);
+      notify(t('successAddChannel'));
     });
     socket.on('removeChannel', ({ id }) => {
       setActiveChn(1);
       console.log(`Channel with id:${id} is removed from the list`);
       dispatch(channelsActions.removeChannel(id));
+      notify(t('successRemoveChannel'));
     });
     socket.on('renameChannel', ({ id, name }) => {
       console.log(`Channel's new name with id:${id} is ${name}`);
       dispatch(channelsActions.renameChannel({ id, changes: { name } }));
+      notify(t('successRenameChannel'));
     });
   }, []);
 
@@ -133,6 +137,7 @@ function Chatpage() {
           </Col>
         </Row>
       </Container>
+      <ToastContainer />
     </Card>
   );
 }
