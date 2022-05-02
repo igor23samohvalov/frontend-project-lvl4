@@ -29,7 +29,7 @@ export default {
     successAddChannel: 'Канал добавлен',
     successRemoveChannel: 'Канал удалён',
     successRenameChannel: 'Канал переименован',
-    incorrectLogs: 'Некорректные логин или пароль',
-    networkError: 'Ошибка сети',
+    incorrectLogs: 'Неверные имя пользователя или пароль',
+    networkError: 'Ошибка соединения',
   },
 };
