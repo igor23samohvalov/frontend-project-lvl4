@@ -7,6 +7,7 @@ import { io } from 'socket.io-client';
 import { Card, Col, Container, Row, Button, Form, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import Channels from '../components/Channels.jsx';
@@ -15,13 +16,14 @@ import useAuth from '../hook/useAuth.js';
 import ChatStat from '../components/ChatStat.jsx';
 import AddModal from '../modals/AddModal.jsx';
 
+const socket = io('http://localhost:5000');
+
 function Chatpage() {
   const dispatch = useDispatch();
   const { activeChannel, setActiveChn, logOut } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const notify = (phrase) => toast.success(phrase);
-  const socket = io('http://localhost:5000');
-
+  // const [socket, setSocket] = useState();
   const [isAddModal, setAddModal] = useState(false);
   const hideAddModal = () => setAddModal(false);
 
@@ -29,6 +31,10 @@ function Chatpage() {
     if (localStorage.userId === undefined) {
       logOut();
     }
+
+    filter.loadDictionary(i18n.resolvedLanguage);
+    filter.list();
+
     const authToken = {
       Authorization: `Bearer ${JSON.parse(localStorage.getItem('userId')).token}`,
     };
@@ -45,7 +51,9 @@ function Chatpage() {
       });
     };
     fetchData();
+  }, []);
 
+  useEffect(() => {
     socket.on('connect', () => {
       console.log(`${JSON.parse(localStorage.getItem('userId')).username} has connected!`);
     });
@@ -70,7 +78,7 @@ function Chatpage() {
       dispatch(channelsActions.renameChannel({ id, changes: { name } }));
       notify(t('successRenameChannel'));
     });
-  }, []);
+  }, [socket]);
 
   const formik = useFormik({
     initialValues: {
@@ -83,7 +91,7 @@ function Chatpage() {
     }),
     onSubmit: (values) => {
       socket.emit('newMessage', {
-        text: values.message,
+        text: filter.clean(values.message),
         author: JSON.parse(localStorage.getItem('userId')).username,
         channelId: activeChannel,
       });

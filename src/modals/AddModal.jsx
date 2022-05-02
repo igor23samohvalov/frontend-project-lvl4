@@ -65,7 +65,6 @@ function AddModal({ show, onHide, ap }) {
           </Button>
         </Form>
       </Modal.Body>
-      <ToastContainer />
     </Modal>
   );
 }
