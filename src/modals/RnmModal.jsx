@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
@@ -16,6 +16,11 @@ function RnmModal(props) {
   const channels = useSelector(channelSelectors.selectAll);
   const { t } = useTranslation();
   const errors = {};
+  // const rnmInput = useRef(null);
+
+  // useEffect(() => {
+  //   rnmInput.current.focus();
+  // }, []);
 
   const validate = ({ renamedChannel }, props) => {
     if (!renamedChannel) {
@@ -45,8 +50,8 @@ function RnmModal(props) {
       <Modal.Header closeButton>
         <Modal.Title>{t('renameChannel')}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
+        <Modal.Body>
           <Form.Group>
             <Form.Control
               type="text"
@@ -55,19 +60,22 @@ function RnmModal(props) {
               onChange={formik.handleChange}
               id="renamedChannel"
               isInvalid={formik.errors.renamedChannel}
+              autoFocus="true"
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.renamedChannel}
             </Form.Control.Feedback>
           </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
           <Button variant="secondary" onClick={onHide}>
             {t('cancel')}
           </Button>
           <Button variant="primary" type="submit">
             {t('submit')}
           </Button>
-        </Form>
-      </Modal.Body>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 }

@@ -1,9 +1,11 @@
 import React from 'react';
-import { ListGroup } from 'react-bootstrap';
 
 function Message({ body, author }) {
   return (
-    <ListGroup.Item><b>{author}</b>: {body}</ListGroup.Item>
+    <div className="text-break mb-2">
+      <b>{`${author}: `}</b>
+      <span>{body}</span>
+    </div>
   );
 }
 

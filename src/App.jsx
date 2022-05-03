@@ -4,7 +4,7 @@ import './main.css';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 // import { Provider, ErrorBoundary } from '@rollbar/react';
-import Header from './components/Header.jsx';
+import Layout from './components/Layout.jsx';
 import Chatpage from './pages/Chatpage.jsx';
 import Loginpage from './pages/Loginpage.jsx';
 import Notfoundpage from './pages/Notfoundpage.jsx';
@@ -23,7 +23,7 @@ function App() {
     //   <ErrorBoundary>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<Header />}>
+            <Route path="/" element={<Layout />}>
               <Route path="/" element={<RequireAuth><Chatpage /></RequireAuth>} />
               <Route path="/login" element={<Loginpage />} />
               <Route path="/signup" element={<SignupPage />} />

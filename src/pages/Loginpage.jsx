@@ -36,16 +36,20 @@ function Loginpage() {
     },
   });
   return (
-    <Card style={{ width: '60rem', height: '30rem' }} className="shadow-sm">
-      <Container fluid style={{ height: '100%', padding: '0px 12px'}}>
-        <Row style={{ height: '85%' }} className="align-items-center">
-          <Col className="text-center">
-            <Image roundedCircle="true" src={logImage} />
-          </Col>
-          <Col className="text-center">
-            <h1>{t('logIn')}</h1>
-            <Form onSubmit={formik.handleSubmit} noValidate>
-              <Form.Group md="4" controlId="validationFormikUsername">
+    <Row className="justify-content-center align-content-center h-100 m-0">
+      <Col className="col-12 col-md-8 col-xxl-6">
+        <Card className="shadow-sm">
+          <Card.Body className="row p-5">
+            <Col className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+              <Image roundedCircle="true" src={logImage} alt={t('logIn')} />
+            </Col>
+            <Form
+              className="col-12 col-md-6 mt-3 mt-mb-0"
+              onSubmit={formik.handleSubmit}
+              noValidate
+            >
+              <h1 className="text-center mb-4">{t('logIn')}</h1>
+              <Form.Group md="46" controlId="validationFormikUsername">
                 <FloatingLabel label={t('loginUsername')} className="mb-3">
                   <Form.Control
                     id="username"
@@ -60,7 +64,7 @@ function Loginpage() {
                   <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
-              <Form.Group md="4" controlId="validationFormikPassword">
+              <Form.Group md="6" controlId="validationFormikPassword">
                 <FloatingLabel label={t('password')} className="mb-3">
                   <Form.Control
                     id="password"
@@ -75,21 +79,24 @@ function Loginpage() {
                   <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
-              <Form.Group className="d-grid gap-2">
+              <Form.Group className="d-grid gap-2 w-100">
                 <Button variant="outline-primary" size="md" type="submit">{t('logIn')}</Button>
               </Form.Group>
             </Form>
-          </Col>
-        </Row>
-        <Row style={{ height: '15%', backgroundColor: '#f7f7f7' }} className="justify-content-md-center align-items-center">
-          <Col md="auto">
-            {t('noAcc')}<br />
-            <NavLink to="/signup">{t('registration')}</NavLink>
-          </Col>
-        </Row>
-      </Container>
-      <ToastContainer />
-    </Card>
+          </Card.Body>
+          <Card.Footer className="p-4">
+            <div className="text-center">
+              <span>
+                {t('noAcc')}
+                {' '}
+              </span>
+              <NavLink to="/signup">{t('registration')}</NavLink>
+            </div>
+          </Card.Footer>
+          <ToastContainer />
+        </Card>
+      </Col>
+    </Row>
   );
 }
 

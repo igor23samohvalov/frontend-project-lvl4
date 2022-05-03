@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const root = document.querySelector('.container-fluid');
+const root = document.querySelector('#chat');
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

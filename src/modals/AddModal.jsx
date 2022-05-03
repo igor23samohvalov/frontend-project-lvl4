@@ -42,8 +42,8 @@ function AddModal({ show, onHide, ap }) {
       <Modal.Header closeButton>
         <Modal.Title>{t('addChannel')}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
+        <Modal.Body>
           <Form.Group>
             <Form.Control
               type="text"
@@ -52,19 +52,22 @@ function AddModal({ show, onHide, ap }) {
               onChange={formik.handleChange}
               id="newChannel"
               isInvalid={formik.errors.newChannel}
+              // autoFocus="true"
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.newChannel}
             </Form.Control.Feedback>
           </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
           <Button variant="secondary" onClick={onHide}>
             {t('cancel')}
           </Button>
           <Button variant="primary" type="submit">
             {t('submit')}
           </Button>
-        </Form>
-      </Modal.Body>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 }

@@ -8,7 +8,7 @@ function Channels({ socket }) {
   const initChannels = useSelector(channelSelectors.selectAll);
 
   return (
-    <ListGroup as="ul" variant="flush">
+    <ListGroup as="ul" variant="flush" className="px-2">
       {initChannels.map(({ name, id, removable }) => (
         <Channel
           name={name}

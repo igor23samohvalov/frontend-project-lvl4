@@ -17,12 +17,14 @@ function RemoveModal(props) {
         <Modal.Title>{t('removeChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{t('confirm')}</Modal.Body>
-      <Button variant="secondary" onClick={onHide}>
-        {t('cancel')}
-      </Button>
-      <Button variant="danger" onClick={handleRemove}>
-        {t('remove')}
-      </Button>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onHide}>
+          {t('cancel')}
+        </Button>
+        <Button variant="danger" onClick={handleRemove}>
+          {t('remove')}
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

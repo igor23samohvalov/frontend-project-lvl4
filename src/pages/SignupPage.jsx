@@ -3,11 +3,11 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, Card, Row, Col, Form, Button, FloatingLabel, Image } from 'react-bootstrap';
+import { Card, Row, Col, Form, Button, FloatingLabel, Image } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import useAuth from '../hook/useAuth.js';
-import signImage from '../assets/images/hexlet_chat.jpg';
+import signImage from '../assets/images/try1.jpg';
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -44,15 +44,19 @@ function SignupPage() {
     },
   });
   return (
-    <Card style={{ width: '60rem', height: '30rem' }} className="shadow-sm">
-      <Container fluid style={{ height: '100%', padding: '0px 12px' }}>
-        <Row style={{ height: '100%' }} className="align-items-center">
-          <Col className="text-center">
-            <Image roundedCircle="true" src={signImage} />
-          </Col>
-          <Col className="text-center">
-            <h1>{t('registration')}</h1>
-            <Form onSubmit={formik.handleSubmit} noValidate>
+    <Row className="justify-content-center align-content-center h-100 m-0">
+      <Col className="col-12 col-md-8 col-xxl-6">
+        <Card className="shadow-sm">
+          <Card.Body className="row p-5">
+            <Col className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+              <Image roundedCircle="true" src={signImage} alt={t('registration')} />
+            </Col>
+            <Form
+              className="col-12 col-md-6 mt-3 mt-mb-0"
+              onSubmit={formik.handleSubmit}
+              noValidate
+            >
+              <h1 className="text-center mb-4">{t('registration')}</h1>
               <Form.Group md="4" controlId="validationFormikUsername">
                 <FloatingLabel label={t('signupUsername')} className="mb-3">
                   <Form.Control
@@ -102,11 +106,11 @@ function SignupPage() {
                 <Button variant="outline-primary" size="md" type="submit">{t('signup')}</Button>
               </Form.Group>
             </Form>
-          </Col>
-        </Row>
-      </Container>
-      <ToastContainer />
-    </Card>
+          </Card.Body>
+          <ToastContainer />
+        </Card>
+      </Col>
+    </Row>
   );
 }
 

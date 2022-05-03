@@ -31,10 +31,10 @@ function ChatStat() {
   }
 
   return (
-    <Row style={{ height: '10%', fontSize: '14px' }} className="p-3">
+    <div className="bg-light mb-4 p-3 shadow-sm small">
       <b className="m-0">{getCurrentChannel(initChannels)}</b>
       <p className="m-0">{getMessageNum(initMessages)}</p>
-    </Row>
+    </div>
   );
 }
 

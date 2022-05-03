@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -26,6 +26,7 @@ function Chatpage() {
   // const [socket, setSocket] = useState();
   const [isAddModal, setAddModal] = useState(false);
   const hideAddModal = () => setAddModal(false);
+  const msgInput = useRef(null)
 
   useEffect(() => {
     if (localStorage.userId === undefined) {
@@ -51,6 +52,7 @@ function Chatpage() {
       });
     };
     fetchData();
+    msgInput.current.focus();
   }, []);
 
   useEffect(() => {
@@ -84,11 +86,11 @@ function Chatpage() {
     initialValues: {
       message: '',
     },
-    validationSchema: yup.object({
-      message: yup.mixed()
-        .nullable()
-        .required(t('required')),
-    }),
+    // validationSchema: yup.object({
+    //   message: yup.mixed()
+    //     .nullable()
+    //     .required(t('required')),
+    // }),
     onSubmit: (values) => {
       socket.emit('newMessage', {
         text: filter.clean(values.message),
@@ -99,54 +101,50 @@ function Chatpage() {
   });
 
   return (
-    <Card style={{ width: '70rem', height: '50rem' }} className="shadow-sm">
-      <Container fluid style={{ height: '100%', padding: '0px 12px' }}>
-        <Row style={{ height: '100%', backgroundColor: '#f7f7f7' }}>
-          <Col xs={2}>
-            <Row className="text-center">
-              <Col xs={8}><p>{t('channels')}</p></Col>
-              <Col>
-                <Button
-                  variant="outline-primary"
-                  size="sm"
-                  onClick={() => setAddModal(true)}
-                >
-                  +
-                </Button>
-                <AddModal show={isAddModal} onHide={hideAddModal} ap={socket} />
-              </Col>
-            </Row>
-            <Row>
-              <Channels socket={socket} />
-            </Row>
-          </Col>
-          <Col>
+    <Container className="h-100 rounded shadow my-4 overflow-hidden">
+      <Row className="h-100 bg-white flex-md-row">
+        <Col sm={2} className="col-4 md-2 pt-5 px-0 border-end bg-light">
+          <div className="d-flex justify-content-between mb-0 ps-4 pe-4">
+            <span style={{ fontSize: '18px', lineHeight: '20px' }}>{t('channels')}</span>
+            <div
+              className="p-0"
+              onClick={() => setAddModal(true)}
+              role="someRole"
+            >
+              <p style={{ fontSize: '20px', lineHeight: '20px', color: 'blue' }}>[+]</p>
+            </div>
+            <AddModal show={isAddModal} onHide={hideAddModal} ap={socket} />
+          </div>
+          <Channels socket={socket} />
+        </Col>
+        <Col className="p-0 h-100">
+          <div className="d-flex flex-column h-100">
             <ChatStat />
-            <Row style={{ height: '80%', backgroundColor: '#fff' }} className="p-3">
-              <Messages activeId={activeChannel} />
-            </Row>
-            <Row style={{ height: '10%', backgroundColor: '#fff' }}>
+            <Messages activeId={activeChannel} />
+            <div className="mt-auto px-5 py-3">
               <Form onSubmit={formik.handleSubmit}>
                 <InputGroup>
                   <Form.Control
+                    size="lg"
                     type="text"
                     id="message"
                     name="message"
                     onChange={formik.handleChange}
                     value={formik.values.message}
                     placeholder={t('messageInput')}
-                    isInvalid={formik.errors.message}
+                    ref={msgInput}
+                    // isInvalid={formik.errors.message}
                   />
-                  <Form.Control.Feedback type="invalid">{formik.errors.message}</Form.Control.Feedback>
+                  {/* <Form.Control.Feedback type="invalid">{formik.errors.message}</Form.Control.Feedback> */}
                   <Button variant="outline-secondary" type="submit">{'->'}</Button>
                 </InputGroup>
               </Form>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
-      <ToastContainer />
-    </Card>
+            </div>
+          </div>
+        </Col>
+        <ToastContainer />
+      </Row>
+    </Container>
   );
 }
 

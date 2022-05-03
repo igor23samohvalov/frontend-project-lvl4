@@ -23,8 +23,8 @@ function Channel({ name, channelId = 1, socket, isRemovable }) {
     return (
       <ListGroup.Item as="li" className={classes} onClick={toggleChannel}>
         <Button
-          variant={activeChannel === channelId ? 'secondary' : 'light-grey'}
-          style={{ width: '100%' }}
+          variant={activeChannel === channelId ? 'secondary' : 'light'}
+          className="w-100 text-start"
         >
           {`# ${name}`}
         </Button>
@@ -36,12 +36,11 @@ function Channel({ name, channelId = 1, socket, isRemovable }) {
     <ListGroup.Item as="li" className={classes} onClick={toggleChannel}>
       <SplitButton
         title={`# ${name}`}
-        variant={activeChannel === channelId ? 'secondary' : 'light-grey'}
-        style={{ width: '100%', backgroundColor: '#f7f7f7' }}
-        className="splitButton"
+        variant={activeChannel === channelId ? 'secondary' : 'light'}
+        className="w-100 rounded-0 text-start px-0 split-button-align"
       >
         <Dropdown.Item
-          onClick={() => setRemoveModal(true)}
+          onClick={() => {setRemoveModal(true)}}
           eventKey="1"
         >
           {t('remove')}

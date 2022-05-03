@@ -1,18 +1,15 @@
-body > .container-fluid {
+#chat {
   background-color: #f8f9fa;
   height: 100vh;
+  width: 100wh;
 }
 
-.list-group {
-  border-radius: 0px;
+.split-button-align button:first-child {
+  padding-left: 0px;
+  text-align: start;
+  /* width: 80%; */
 }
 
-.list-group-item.active {
-  /* background-color: #6c757d; */
-  border-color: transparent;
-  
+.split-button-align button:last-child {
+  /* width: 10px */
 }
-
-/* .btn.splitButton {
-  border: 2px solid blue;
-} */
