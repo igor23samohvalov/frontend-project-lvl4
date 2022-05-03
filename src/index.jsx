@@ -5,7 +5,7 @@ import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
 import React from 'react';
 import { Provider } from 'react-redux';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 // @ts-ignore
 import App from './App.jsx';
@@ -16,8 +16,8 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const root = ReactDOM.createRoot(document.querySelector('.container-fluid'));
-root.render(
+const root = document.querySelector('.container-fluid');
+ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
@@ -25,4 +25,5 @@ root.render(
       </Provider>
     </BrowserRouter>
   </React.StrictMode>,
+  root,
 );
