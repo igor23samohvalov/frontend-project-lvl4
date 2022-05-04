@@ -4,12 +4,16 @@
   width: 100wh;
 }
 
+.split-button-align {
+  display: flex;
+
+}
+
 .split-button-align button:first-child {
-  padding-left: 0px;
-  text-align: start;
-  /* width: 80%; */
+  display: flex;
+  width: 80%;
 }
 
 .split-button-align button:last-child {
-  /* width: 10px */
+  align-self: end;
 }

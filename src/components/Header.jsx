@@ -9,6 +9,7 @@ function Header() {
   const { isLogged, logOut } = useAuth();
   const { t } = useTranslation();
   const handleClick = () => {
+    localStorage.removeItem('userId');
     logOut();
   };
 

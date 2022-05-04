@@ -1,13 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
 import { Modal, Button } from 'react-bootstrap';
 
 function RemoveModal(props) {
   // eslint-disable-next-line object-curly-newline
   const { show, onHide, id, ap } = props;
+  const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
   const { t } = useTranslation();
   const handleRemove = () => {
-    ap.emit('removeChannel', { id });
+    ap.timeout(2000).emit('removeChannel', { id }, (err) => {
+      if (err) {
+        notify(t('networkError'), 'error');
+      }
+    });
     onHide();
   };
 
@@ -25,6 +31,7 @@ function RemoveModal(props) {
           {t('remove')}
         </Button>
       </Modal.Footer>
+      <ToastContainer />
     </Modal>
   );
 }

@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
 import { selectors as channelSelectors } from '../slices/channelsSlice.js';
 
 function isNameTaken(name, array) {
@@ -13,14 +14,18 @@ function isNameTaken(name, array) {
 function RnmModal(props) {
   // eslint-disable-next-line object-curly-newline
   const { show, onHide, id, ap } = props;
+  const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
   const channels = useSelector(channelSelectors.selectAll);
   const { t } = useTranslation();
   const errors = {};
-  // const rnmInput = useRef(null);
+  const refRnmInput = useRef(null);
 
-  // useEffect(() => {
-  //   rnmInput.current.focus();
-  // }, []);
+  useEffect(() => {
+    if (show) {
+      refRnmInput.current.focus();
+      refRnmInput.current.select();
+    }
+  }, [show]);
 
   const validate = ({ renamedChannel }, props) => {
     if (!renamedChannel) {
@@ -33,14 +38,18 @@ function RnmModal(props) {
   };
   const formik = useFormik({
     initialValues: {
-      renamedChannel: '',
+      renamedChannel: channels.filter((chn) => chn.id === id)[0].name,
     },
     validate,
     onSubmit: ({ renamedChannel }) => {
-      ap.emit('renameChannel', ({
+      ap.timeout(2000).emit('renameChannel', {
         id,
         name: renamedChannel,
-      }));
+      }, (err) => {
+        if (err) {
+          notify(t('networkError'), 'error');
+        }
+      });
       onHide();
     },
   });
@@ -60,7 +69,7 @@ function RnmModal(props) {
               onChange={formik.handleChange}
               id="renamedChannel"
               isInvalid={formik.errors.renamedChannel}
-              autoFocus="true"
+              ref={refRnmInput}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.renamedChannel}
@@ -76,6 +85,7 @@ function RnmModal(props) {
           </Button>
         </Modal.Footer>
       </Form>
+      <ToastContainer />
     </Modal>
   );
 }

@@ -5,7 +5,8 @@ function RequireAuth({ children }) {
   const { isLogged } = useAuth();
 
   if (!isLogged) {
-    return <Navigate to="/login" />
+    // eslint-disable-next-line react/react-in-jsx-scope
+    return <Navigate to="/login" />;
   }
 
   return children;

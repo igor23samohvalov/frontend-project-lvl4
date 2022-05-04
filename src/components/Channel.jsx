@@ -26,7 +26,8 @@ function Channel({ name, channelId = 1, socket, isRemovable }) {
           variant={activeChannel === channelId ? 'secondary' : 'light'}
           className="w-100 text-start"
         >
-          {`# ${name}`}
+          <span className="me-1">#</span>
+          {name}
         </Button>
       </ListGroup.Item>
     );

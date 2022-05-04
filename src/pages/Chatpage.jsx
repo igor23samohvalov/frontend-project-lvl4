@@ -2,9 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { io } from 'socket.io-client';
-import { Card, Col, Container, Row, Button, Form, InputGroup } from 'react-bootstrap';
+import { Col, Container, Row, Button, Form, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import filter from 'leo-profanity';
@@ -16,23 +15,27 @@ import useAuth from '../hook/useAuth.js';
 import ChatStat from '../components/ChatStat.jsx';
 import AddModal from '../modals/AddModal.jsx';
 
-const socket = io('http://localhost:5000');
-
 function Chatpage() {
   const dispatch = useDispatch();
-  const { activeChannel, setActiveChn, logOut } = useAuth();
+  const { activeChannel, setActiveChn } = useAuth();
   const { t, i18n } = useTranslation();
-  const notify = (phrase) => toast.success(phrase);
-  // const [socket, setSocket] = useState();
+  const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
   const [isAddModal, setAddModal] = useState(false);
   const hideAddModal = () => setAddModal(false);
-  const msgInput = useRef(null)
+  const msgInput = useRef(null);
+
+  const [isEmptyInput, setDisable] = useState(true);
+  const socket = useRef(null)
+  // useEffect(() => {
+  //   if (localStorage.userId === undefined || !isLogged) {
+  //     console.log('disconnecting?')
+  //     socket.disconnect();
+  //     console.log(socket.connected)
+  //     logOut();
+  //   }
+  // });
 
   useEffect(() => {
-    if (localStorage.userId === undefined) {
-      logOut();
-    }
-
     filter.loadDictionary(i18n.resolvedLanguage);
     filter.list();
 
@@ -56,49 +59,66 @@ function Chatpage() {
   }, []);
 
   useEffect(() => {
-    socket.on('connect', () => {
+    socket.current = io('http://localhost:5000');
+    socket.current.on('connect', () => {
       console.log(`${JSON.parse(localStorage.getItem('userId')).username} has connected!`);
     });
-    socket.on('newMessage', (message) => {
+    socket.current.on('newMessage', (message) => {
       console.log(`${JSON.parse(localStorage.getItem('userId')).username} sent message: ${message.text}!`);
       dispatch(messagesActions.addMessage(message));
+
+      setDisable(true);
+      msgInput.current.value = '';
+      msgInput.current.focus();
     });
-    socket.on('newChannel', (channel) => {
+    socket.current.on('newChannel', (channel) => {
       console.log(`${channel.name} is added to the list`);
       dispatch(channelsActions.addChannel(channel));
       setActiveChn(channel.id);
-      notify(t('successAddChannel'));
+      notify(t('successAddChannel'), 'success');
     });
-    socket.on('removeChannel', ({ id }) => {
+    socket.current.on('removeChannel', ({ id }) => {
       setActiveChn(1);
       console.log(`Channel with id:${id} is removed from the list`);
       dispatch(channelsActions.removeChannel(id));
-      notify(t('successRemoveChannel'));
+      notify(t('successRemoveChannel'), 'success');
     });
-    socket.on('renameChannel', ({ id, name }) => {
+    socket.current.on('renameChannel', ({ id, name }) => {
       console.log(`Channel's new name with id:${id} is ${name}`);
       dispatch(channelsActions.renameChannel({ id, changes: { name } }));
-      notify(t('successRenameChannel'));
+      notify(t('successRenameChannel'), 'success');
     });
-  }, [socket]);
+    socket.current.on('disconnect', () => {
+      console.log('disconnected');
+    });
+
+    return () => socket.current.disconnect();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       message: '',
     },
-    // validationSchema: yup.object({
-    //   message: yup.mixed()
-    //     .nullable()
-    //     .required(t('required')),
-    // }),
     onSubmit: (values) => {
-      socket.emit('newMessage', {
+      socket.current.timeout(2000).emit('newMessage', {
         text: filter.clean(values.message),
         author: JSON.parse(localStorage.getItem('userId')).username,
         channelId: activeChannel,
+      }, (err) => {
+        if (err) {
+          notify(t('networkError'), 'error');
+        }
       });
     },
   });
+
+  const disableSubmit = (length) => {
+    if (length === 0) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  };
 
   return (
     <Container className="h-100 rounded shadow my-4 overflow-hidden">
@@ -113,9 +133,9 @@ function Chatpage() {
             >
               <p style={{ fontSize: '20px', lineHeight: '20px', color: 'blue' }}>[+]</p>
             </div>
-            <AddModal show={isAddModal} onHide={hideAddModal} ap={socket} />
+            <AddModal show={isAddModal} onHide={hideAddModal} ap={socket.current} />
           </div>
-          <Channels socket={socket} />
+          <Channels socket={socket.current} />
         </Col>
         <Col className="p-0 h-100">
           <div className="d-flex flex-column h-100">
@@ -129,14 +149,21 @@ function Chatpage() {
                     type="text"
                     id="message"
                     name="message"
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                      disableSubmit(e.target.value.length);
+                      formik.handleChange(e);
+                    }}
                     value={formik.values.message}
                     placeholder={t('messageInput')}
                     ref={msgInput}
-                    // isInvalid={formik.errors.message}
                   />
-                  {/* <Form.Control.Feedback type="invalid">{formik.errors.message}</Form.Control.Feedback> */}
-                  <Button variant="outline-secondary" type="submit">{'->'}</Button>
+                  <Button
+                    variant="outline-secondary"
+                    type="submit"
+                    disabled={isEmptyInput}
+                  >
+                    {'->'}
+                  </Button>
                 </InputGroup>
               </Form>
             </div>

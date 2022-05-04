@@ -43,6 +43,7 @@ function SignupPage() {
         .catch(() => notify(t('networkError')));
     },
   });
+
   return (
     <Row className="justify-content-center align-content-center h-100 m-0">
       <Col className="col-12 col-md-8 col-xxl-6">

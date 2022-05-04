@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
 import { selectors as channelSelectors } from '../slices/channelsSlice.js';
 
 function isNameTaken(name, array) {
@@ -12,8 +13,16 @@ function isNameTaken(name, array) {
 
 function AddModal({ show, onHide, ap }) {
   const channels = useSelector(channelSelectors.selectAll);
+  const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
   const { t } = useTranslation();
   const errors = {};
+  const refAddChnInput = useRef();
+
+  useEffect(() => {
+    if (show) {
+      refAddChnInput.current.focus();
+    }
+  }, [show]);
 
   const validate = ({ newChannel }, props) => {
     if (!newChannel) {
@@ -30,8 +39,12 @@ function AddModal({ show, onHide, ap }) {
     },
     validate,
     onSubmit: ({ newChannel }) => {
-      ap.emit('newChannel', {
+      ap.timeout(2000).emit('newChannel', {
         name: newChannel,
+      }, (err) => {
+        if (err) {
+          notify(t('networkError'), 'error');
+        }
       });
       onHide();
     },
@@ -52,7 +65,7 @@ function AddModal({ show, onHide, ap }) {
               onChange={formik.handleChange}
               id="newChannel"
               isInvalid={formik.errors.newChannel}
-              // autoFocus="true"
+              ref={refAddChnInput}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.newChannel}
@@ -68,6 +81,7 @@ function AddModal({ show, onHide, ap }) {
           </Button>
         </Modal.Footer>
       </Form>
+      <ToastContainer />
     </Modal>
   );
 }
