@@ -31,5 +31,6 @@ export default {
     successRenameChannel: 'Канал переименован',
     incorrectLogs: 'Неверные имя пользователя или пароль',
     networkError: 'Ошибка соединения',
+    disconnected: 'Произошло разъединение связи',
   },
 };

@@ -16,15 +16,17 @@ function AddModal({ show, onHide, ap }) {
   const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
   const { t } = useTranslation();
   const errors = {};
-  const refAddChnInput = useRef();
+  const refAddChnInput = useRef(null);
 
   useEffect(() => {
     if (show) {
+      refAddChnInput.current.value = '';
+      refAddChnInput.current.disabled = false;
       refAddChnInput.current.focus();
     }
   }, [show]);
 
-  const validate = ({ newChannel }, props) => {
+  const validate = ({ newChannel }) => {
     if (!newChannel) {
       errors.newChannel = t('required');
     } else if (isNameTaken(newChannel, channels)) {
@@ -39,14 +41,15 @@ function AddModal({ show, onHide, ap }) {
     },
     validate,
     onSubmit: ({ newChannel }) => {
+      refAddChnInput.current.disabled = true;
       ap.timeout(2000).emit('newChannel', {
         name: newChannel,
       }, (err) => {
         if (err) {
           notify(t('networkError'), 'error');
+          refAddChnInput.current.disabled = false;
         }
       });
-      onHide();
     },
   });
 

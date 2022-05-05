@@ -12,6 +12,9 @@
 .split-button-align button:first-child {
   display: flex;
   width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .split-button-align button:last-child {

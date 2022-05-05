@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { SplitButton, ListGroup, Dropdown, Button } from 'react-bootstrap';
+import {
+  SplitButton, ListGroup, Dropdown, Button,
+} from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../hook/useAuth.js';
 import RnmModal from '../modals/RnmModal.jsx';
 import RemoveModal from '../modals/RemoveModal.jsx';
 
-function Channel({ name, channelId = 1, socket, isRemovable }) {
+function Channel(props) {
+  const {
+    name, channelId = 1, socket, isRemovable,
+  } = props;
   const { activeChannel, setActiveChn } = useAuth();
   const { t } = useTranslation();
 
@@ -41,7 +46,7 @@ function Channel({ name, channelId = 1, socket, isRemovable }) {
         className="w-100 rounded-0 text-start px-0 split-button-align"
       >
         <Dropdown.Item
-          onClick={() => {setRemoveModal(true)}}
+          onClick={() => setRemoveModal(true)}
           eventKey="1"
         >
           {t('remove')}

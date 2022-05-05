@@ -3,7 +3,9 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Card, Row, Col, Form, Button, FloatingLabel, Image } from 'react-bootstrap';
+import {
+  Card, Row, Col, Form, Button, FloatingLabel, Image,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import useAuth from '../hook/useAuth.js';
@@ -70,7 +72,7 @@ function SignupPage() {
                     placeholder={t('signupUsername')}
                     isInvalid={formik.touched.username && formik.errors.username}
                   />
-                  <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid" tooltip>{formik.errors.username}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="validationFormikPassword">
@@ -85,7 +87,7 @@ function SignupPage() {
                     placeholder={t('password')}
                     isInvalid={formik.touched.password && formik.errors.password}
                   />
-                  <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid" tooltip>{formik.errors.password}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="validationFormikPassword">
@@ -100,7 +102,7 @@ function SignupPage() {
                     placeholder={t('confirmPassword')}
                     isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}
                   />
-                  <Form.Control.Feedback type="invalid">{formik.errors.confirmPassword}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid" tooltip>{formik.errors.confirmPassword}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
               <Form.Group className="d-grid gap-2">

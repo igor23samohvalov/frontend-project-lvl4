@@ -22,12 +22,13 @@ function RnmModal(props) {
 
   useEffect(() => {
     if (show) {
+      refRnmInput.current.disabled = false;
       refRnmInput.current.focus();
       refRnmInput.current.select();
     }
   }, [show]);
 
-  const validate = ({ renamedChannel }, props) => {
+  const validate = ({ renamedChannel }) => {
     if (!renamedChannel) {
       errors.renamedChannel = t('required');
     } else if (isNameTaken(renamedChannel, channels)) {
@@ -42,12 +43,14 @@ function RnmModal(props) {
     },
     validate,
     onSubmit: ({ renamedChannel }) => {
+      refRnmInput.current.disabled = true;
       ap.timeout(2000).emit('renameChannel', {
         id,
         name: renamedChannel,
       }, (err) => {
         if (err) {
           notify(t('networkError'), 'error');
+          refRnmInput.current.disabled = false;
         }
       });
       onHide();

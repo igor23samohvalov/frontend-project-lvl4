@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate, NavLink } from 'react-router-dom';
-import { Container, Card, Row, Col, Form, Button, FloatingLabel, Image } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import {
+  Card, Row, Col, Form, Button, FloatingLabel, Image,
+} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hook/useAuth.js';
 import logImage from '../assets/images/hexlet_chat.jpg';
 
@@ -13,7 +15,8 @@ function Loginpage() {
   const { logIn } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const notify = (phrase) => toast.error(phrase);
+  const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -25,14 +28,21 @@ function Loginpage() {
       password: yup.string()
         .required(t('required')),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, actions) => {
       axios.post('/api/v1/login', values)
         .then((res) => {
           localStorage.setItem('userId', JSON.stringify(res.data));
           logIn();
           navigate('/');
         })
-        .catch(() => notify('Login or password are incorrect'));
+        .catch((err) => {
+          if (err.response.status === 401) {
+            actions.setFieldError('username', t('incorrectLogs'));
+            actions.setFieldError('password', t('incorrectLogs'));
+          } else {
+            notify(t('networkError'), 'error');
+          }
+        });
     },
   });
 
@@ -62,7 +72,7 @@ function Loginpage() {
                     placeholder={t('loginUsername')}
                     isInvalid={formik.touched.username && formik.errors.username}
                   />
-                  <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid" tooltip>{formik.errors.username}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="6" controlId="validationFormikPassword">
@@ -77,7 +87,7 @@ function Loginpage() {
                     placeholder={t('password')}
                     isInvalid={formik.touched.password && formik.errors.password}
                   />
-                  <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid" tooltip>{formik.errors.password}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
               <Form.Group className="d-grid gap-2 w-100">
@@ -94,9 +104,9 @@ function Loginpage() {
               <NavLink to="/signup">{t('registration')}</NavLink>
             </div>
           </Card.Footer>
-          <ToastContainer />
         </Card>
       </Col>
+      <ToastContainer />
     </Row>
   );
 }

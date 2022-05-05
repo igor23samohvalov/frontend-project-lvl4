@@ -1,11 +1,10 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Navbar, Container, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../hook/useAuth.js';
 
 function Header() {
-  // const navigate = useNavigate();
   const { isLogged, logOut } = useAuth();
   const { t } = useTranslation();
   const handleClick = () => {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Row } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { selectors as channelSelectors } from '../slices/channelsSlice.js';
@@ -21,7 +20,7 @@ function ChatStat() {
   }
   function getCurrentChannel(chnls) {
     if (chnls.length === 0) {
-      return '# general and this sht doesnt work you know';
+      return '# general';
     }
     if (chnls.filter(({ id }) => id === activeChannel).length === 0) {
       return '# unknown';
