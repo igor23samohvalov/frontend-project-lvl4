@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './main.css';
 import React from 'react';
-import { injectStyle } from 'react-toastify/dist/inject-style';
 import { Route, Routes } from 'react-router-dom';
 import { Provider, ErrorBoundary } from '@rollbar/react';
 import Layout from './components/Layout.jsx';
@@ -19,7 +18,6 @@ const rollbarConfig = {
 };
 
 function App() {
-  injectStyle();
   return (
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
