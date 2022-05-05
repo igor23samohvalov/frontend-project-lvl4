@@ -30,6 +30,9 @@ module.exports = {
         test: /\.(js|jsx|png|jpg|svg|gif|ico)$/,
         exclude: /node_modules/,
         use: 'babel-loader',
+        resolve: {
+          fullySpecified: false,
+        },
       },
       {
         test: /\.(sass|less|css)$/,
@@ -47,8 +50,8 @@ module.exports = {
         use: [{
           loader: 'url-loader',
           options: {
-            limit: 10000,
-          }
+            limit: 100000,
+          },
         }],
       },
     ],
