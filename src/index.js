@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
-// @ts-check
+// @ts-nocheck
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import React from 'react';
@@ -16,6 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const root = document.querySelector('#chat');
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

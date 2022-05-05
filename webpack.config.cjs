@@ -1,5 +1,5 @@
 // @ts-check
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -21,6 +21,11 @@ module.exports = {
     // publicPath: '/assets/',
     historyApiFallback: true,
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: './index.html',
+    }),
+  ],
   // plugins: [
   //   new MiniCssExtractPlugin(),
   // ],
