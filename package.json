@@ -2,11 +2,11 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "engines": {
-    "node": "16.x",
-    "npm": "8.x"
+    "node": "14.x",
+    "npm": "6.x"
   },
   "description": "a simple Slack analog based on socket.io",
-  "main": "src/index.js",
+  "main": "src/index.jsx",
   "type": "module",
   "scripts": {
     "test": "jest",
