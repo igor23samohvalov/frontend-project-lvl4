@@ -90,13 +90,14 @@ function Chatpage() {
     },
     onSubmit: (values) => {
       msgInput.current.disabled = true;
-
+      console.log(values)
       socket.current.timeout(2000).emit('newMessage', {
         text: filter.clean(values.message),
         author: JSON.parse(localStorage.getItem('userId')).username,
         channelId: activeChannel,
       }, (err) => {
         if (err) {
+          console.log('fk')
           notify(t('networkError'), 'error');
           msgInput.current.disabled = false;
         }
@@ -105,6 +106,7 @@ function Chatpage() {
   });
 
   const disableSubmit = (length) => {
+    console.log('whatever')
     if (length === 0) {
       setDisable(true);
     } else {
