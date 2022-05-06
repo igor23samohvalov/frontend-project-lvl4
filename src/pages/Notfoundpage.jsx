@@ -1,8 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 function Notfoundpage() {
+  const { t } = useTranslation();
+
   return (
-    <div>Woops! This URL doesnt exist!</div>
+    <div>{t('fourzerofour')}</div>
   );
 }
 

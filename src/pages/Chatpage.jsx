@@ -53,7 +53,7 @@ function Chatpage() {
   }, []);
 
   useEffect(() => {
-    socket.current = io('http://localhost:5000');
+    socket.current = io();
     socket.current.on('newMessage', (message) => {
       msgInput.current.disabled = false;
       dispatch(messagesActions.addMessage(message));

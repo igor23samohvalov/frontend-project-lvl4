@@ -1,5 +1,6 @@
 export default {
   translation: {
+    fourzerofour: '404: Страница не найдена.',
     brandLogo: 'Hexlet Chat',
     logOut: 'Выйти',
     loginUsername: 'Ваш ник',

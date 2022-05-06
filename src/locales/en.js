@@ -1,5 +1,6 @@
 export default {
   translation: {
+    fourzerofour: '404: Page not found.',
     brandLogo: 'Hexlet Chat',
     logOut: 'Log Out',
     loginUsername: 'Your username',
