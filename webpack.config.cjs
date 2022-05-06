@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 const path = require('path');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -7,6 +7,9 @@ const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   mode,
+  entry: {
+    main: './src/index.js',
+  },
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -18,7 +21,7 @@ module.exports = {
     compress: true,
     port: 8090,
     host: '0.0.0.0',
-    // publicPath: '/assets/',
+    publicPath: '/assets/',
     historyApiFallback: true,
   },
   plugins: [
@@ -35,7 +38,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(sass|less|css)$/,
+        test: /\.css$/i,
         use: [
           { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader' },

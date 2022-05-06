@@ -1,9 +1,9 @@
 // @ts-nocheck
 import 'core-js/stable/index.js';
+import './main.css';
 import 'regenerator-runtime/runtime.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-import './main.css';
 import ReactDOM from 'react-dom';
 import init from './init.jsx';
 
