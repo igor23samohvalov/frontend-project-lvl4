@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import useAuth from '../hook/useAuth.js';
 import signImage from '../assets/images/signup.jpg';
+import routes from '../routes.js';
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function SignupPage() {
         .required(t('required')),
     }),
     onSubmit: (values) => {
-      axios.post('/api/v1/signup', values)
+      axios.post(routes.signup(), values)
         .then((res) => {
           localStorage.setItem('userId', JSON.stringify(res.data));
           logIn();
@@ -61,7 +62,7 @@ function SignupPage() {
             >
               <h1 className="text-center mb-4">{t('registration')}</h1>
               <Form.Group md="4" controlId="username">
-                <FloatingLabel label={t('signupUsername')} className="mb-3" htmlFor="username">
+                <FloatingLabel label={t('signupUsername')} className="mb-3">
                   <Form.Control
                     id="username"
                     name="username"
@@ -77,7 +78,7 @@ function SignupPage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="password">
-                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password">
+                <FloatingLabel label={t('password')} className="mb-3">
                   <Form.Control
                     id="password"
                     name="password"
@@ -93,7 +94,7 @@ function SignupPage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="confirmPassword">
-                <FloatingLabel label={t('confirmPassword')} className="mb-3" htmlFor="confirmPassword">
+                <FloatingLabel label={t('confirmPassword')} className="mb-3">
                   <Form.Control
                     id="confirmPassword"
                     name="confirmPassword"
@@ -109,7 +110,7 @@ function SignupPage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group className="d-grid gap-2">
-                <Button variant="outline-primary" size="md" type="submit" role="button" aria-label={t('signup')}>{t('signup')}</Button>
+                <Button variant="outline-primary" size="md" type="submit" aria-label={t('signup')}>{t('signup')}</Button>
               </Form.Group>
             </Form>
           </Card.Body>

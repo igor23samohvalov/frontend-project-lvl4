@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Message({ body, author }) {
+function Message({ body, username }) {
   return (
     <div className="text-break mb-2">
-      <b>{`${author}: `}</b>
+      <b>{`${username}: `}</b>
       <span>{body}</span>
     </div>
   );

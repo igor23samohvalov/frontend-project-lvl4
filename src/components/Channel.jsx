@@ -30,7 +30,6 @@ function Channel(props) {
         <Button
           variant={activeChannel === channelId ? 'secondary' : 'light'}
           className="w-100 text-start"
-          role="button"
           aria-label={name}
         >
           <span className="me-1">#</span>
@@ -46,18 +45,19 @@ function Channel(props) {
         title={`# ${name}`}
         variant={activeChannel === channelId ? 'secondary' : 'light'}
         className="w-100 rounded-0 text-start px-0 split-button-align"
-        role="button"
         aria-label={name}
       >
         <Dropdown.Item
           onClick={() => setRemoveModal(true)}
           eventKey="1"
+          aria-label="Удалить"
         >
           {t('remove')}
         </Dropdown.Item>
         <Dropdown.Item
           eventKey="2"
           onClick={() => setRnmModal(true)}
+          aria-label="Управление каналом"
         >
           {t('rename')}
         </Dropdown.Item>

@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../hook/useAuth.js';
 import logImage from '../assets/images/hexlet_chat.jpg';
+import routes from '../routes.js';
 
 function Loginpage() {
   const { logIn } = useAuth();
@@ -29,7 +30,7 @@ function Loginpage() {
         .required(t('required')),
     }),
     onSubmit: (values, actions) => {
-      axios.post('/api/v1/login', values)
+      axios.post(routes.login(), values)
         .then((res) => {
           localStorage.setItem('userId', JSON.stringify(res.data));
           logIn();

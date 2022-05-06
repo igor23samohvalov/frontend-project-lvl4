@@ -27,7 +27,7 @@ function RemoveModal(props) {
         <Button variant="secondary" onClick={onHide}>
           {t('cancel')}
         </Button>
-        <Button variant="danger" onClick={handleRemove}>
+        <Button variant="danger" onClick={handleRemove} aria-label="Удалить">
           {t('remove')}
         </Button>
       </Modal.Footer>

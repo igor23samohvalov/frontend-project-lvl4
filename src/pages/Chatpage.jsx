@@ -55,7 +55,6 @@ function Chatpage() {
   useEffect(() => {
     socket.current = io();
     socket.current.on('newMessage', (message) => {
-      console.log('new message')
       msgInput.current.disabled = false;
       dispatch(messagesActions.addMessage(message));
 
@@ -93,11 +92,10 @@ function Chatpage() {
       msgInput.current.disabled = true;
       socket.current.timeout(2000).emit('newMessage', {
         text: filter.clean(values.message),
-        author: JSON.parse(localStorage.getItem('userId')).username,
+        username: JSON.parse(localStorage.getItem('userId')).username,
         channelId: activeChannel,
       }, (err) => {
         if (err) {
-          console.log('fk')
           notify(t('networkError'), 'error');
           msgInput.current.disabled = false;
         }
@@ -124,7 +122,6 @@ function Chatpage() {
               variant="outline-secondary"
               className="p-0"
               onClick={() => setAddModal(true)}
-              role="button"
               aria-label="+"
             >
               +
@@ -158,7 +155,6 @@ function Chatpage() {
                     variant="outline-secondary"
                     type="submit"
                     disabled={isEmptyInput}
-                    role="button"
                     aria-label="Отправить"
                   >
                     {'->'}

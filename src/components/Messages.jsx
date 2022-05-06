@@ -18,8 +18,8 @@ function Messages({ activeId }) {
     <div className="overflow-auto px-5" ref={msgContainer}>
       {initMessages
         .filter(({ channelId }) => activeId === channelId)
-        .map(({ text, id, author }) => (
-          <Message body={text} key={id} author={author} />
+        .map(({ text, id, username }) => (
+          <Message body={text} key={id} username={username} />
         ))}
     </div>
   );
