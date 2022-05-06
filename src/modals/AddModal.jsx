@@ -63,7 +63,7 @@ function AddModal({ show, onHide, ap }) {
       <Form onSubmit={formik.handleSubmit}>
         <Modal.Body>
           <Form.Group>
-            <FloatingLabel label="Имя канала" className="mb-3" htmlFor="newChannel">
+            <FloatingLabel label="Имя канала" className="mb-3" htmlFor="newChannel" aria-label="Имя канала">
               <Form.Control
                 type="text"
                 name="newChannel"
@@ -84,7 +84,7 @@ function AddModal({ show, onHide, ap }) {
           <Button variant="secondary" onClick={onHide}>
             {t('cancel')}
           </Button>
-          <Button variant="primary" type="submit" role="button">
+          <Button variant="primary" type="submit" role="button" aria-label="Отправить">
             {t('submit')}
           </Button>
         </Modal.Footer>

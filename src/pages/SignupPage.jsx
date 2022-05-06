@@ -106,7 +106,7 @@ function SignupPage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group className="d-grid gap-2">
-                <Button variant="outline-primary" size="md" type="submit" role="button">{t('signup')}</Button>
+                <Button variant="outline-primary" size="md" type="submit" role="button" aria-label={t('signup')}>{t('signup')}</Button>
               </Form.Group>
             </Form>
           </Card.Body>

@@ -37,7 +37,7 @@ function Loginpage() {
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            actions.setFieldError('username', t('incorrectLogs'));
+            actions.setFieldError('username', t('required'));
             actions.setFieldError('password', t('incorrectLogs'));
           } else {
             notify(t('networkError'), 'error');
@@ -91,7 +91,7 @@ function Loginpage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group className="d-grid gap-2 w-100">
-                <Button variant="outline-primary" size="md" type="submit" role="button">{t('logIn')}</Button>
+                <Button variant="outline-primary" size="md" type="submit" role="button" aria-label="Войти">{t('logIn')}</Button>
               </Form.Group>
             </Form>
           </Card.Body>

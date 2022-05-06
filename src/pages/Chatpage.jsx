@@ -125,6 +125,7 @@ function Chatpage() {
               onClick={() => setAddModal(true)}
               role="button"
               name="+"
+              aria-label="+"
             >
               +
             </Button>
@@ -139,7 +140,7 @@ function Chatpage() {
             <div className="mt-auto px-5 py-3">
               <Form onSubmit={formik.handleSubmit}>
                 <InputGroup>
-                  <FloatingLabel label={t('messageInput')} htmlFor="message" className="w-100">
+                  <FloatingLabel label={t('messageInput')} htmlFor="message" className="w-100" aria-label={t('messageInput')}>
                     <Form.Control
                       size="lg"
                       type="text"
@@ -158,7 +159,7 @@ function Chatpage() {
                       type="submit"
                       disabled={isEmptyInput}
                       role="button"
-                      name="Отправить"
+                      aria-label="Отправить"
                     >
                       {'->'}
                     </Button>
