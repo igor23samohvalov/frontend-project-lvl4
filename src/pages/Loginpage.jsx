@@ -61,11 +61,12 @@ function Loginpage() {
             >
               <h1 className="text-center mb-4">{t('logIn')}</h1>
               <Form.Group md="46" controlId="username">
-                <FloatingLabel label={t('loginUsername')} className="mb-3" htmlFor="username" aria-label="Ваш ник">
+                <FloatingLabel label={t('loginUsername')} className="mb-3" htmlFor="username">
                   <Form.Control
                     id="username"
                     name="username"
                     type="text"
+                    aria-label="Ваш ник"
                     onChange={formik.handleChange}
                     value={formik.values.username}
                     onBlur={formik.handleBlur}
@@ -76,11 +77,12 @@ function Loginpage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="6" controlId="password">
-                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password" aria-label="Пароль">
+                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password">
                   <Form.Control
                     id="password"
                     name="password"
                     type="password"
+                    aria-label="Пароль"
                     onChange={formik.handleChange}
                     value={formik.values.password}
                     onBlur={formik.handleBlur}
