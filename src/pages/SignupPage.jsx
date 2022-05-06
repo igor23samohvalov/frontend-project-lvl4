@@ -61,7 +61,7 @@ function SignupPage() {
             >
               <h1 className="text-center mb-4">{t('registration')}</h1>
               <Form.Group md="4" controlId="validationFormikUsername">
-                <FloatingLabel label={t('signupUsername')} className="mb-3" htmlFor="username">
+                <FloatingLabel label={t('signupUsername')} className="mb-3" htmlFor="username" aria-label={t('signupUsername')}>
                   <Form.Control
                     id="username"
                     name="username"
@@ -76,7 +76,7 @@ function SignupPage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="validationFormikPassword">
-                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password">
+                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password" aria-label={t('password')}>
                   <Form.Control
                     id="password"
                     name="password"
@@ -91,7 +91,7 @@ function SignupPage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="validationFormikPassword">
-                <FloatingLabel label={t('confirmPassword')} className="mb-3" htmlFor="confirmPassword">
+                <FloatingLabel label={t('confirmPassword')} className="mb-3" htmlFor="confirmPassword" aria-label={t('confirmPassword')}>
                   <Form.Control
                     id="confirmPassword"
                     name="confirmPassword"

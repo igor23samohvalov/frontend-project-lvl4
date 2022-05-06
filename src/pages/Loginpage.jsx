@@ -61,7 +61,7 @@ function Loginpage() {
             >
               <h1 className="text-center mb-4">{t('logIn')}</h1>
               <Form.Group md="46" controlId="validationFormikUsername">
-                <FloatingLabel label={t('loginUsername')} className="mb-3" htmlFor="username">
+                <FloatingLabel label={t('loginUsername')} className="mb-3" htmlFor="username" aria-label="Ваш ник">
                   <Form.Control
                     id="username"
                     name="username"
@@ -76,7 +76,7 @@ function Loginpage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="6" controlId="validationFormikPassword">
-                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password">
+                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password" aria-label="Пароль">
                   <Form.Control
                     id="password"
                     name="password"
