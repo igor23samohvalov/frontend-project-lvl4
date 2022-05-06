@@ -61,7 +61,7 @@ function SignupPage() {
             >
               <h1 className="text-center mb-4">{t('registration')}</h1>
               <Form.Group md="4" controlId="username">
-                <FloatingLabel label={t('signupUsername')} className="mb-3" htmlFor="username" aria-label={t('signupUsername')}>
+                <FloatingLabel label={t('signupUsername')} className="mb-3" htmlFor="username">
                   <Form.Control
                     id="username"
                     name="username"
@@ -70,13 +70,14 @@ function SignupPage() {
                     value={formik.values.username}
                     onBlur={formik.handleBlur}
                     placeholder={t('signupUsername')}
+                    aria-label={t('signupUsername')}
                     isInvalid={formik.touched.username && formik.errors.username}
                   />
                   <Form.Control.Feedback type="invalid" tooltip>{formik.errors.username}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="password">
-                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password" aria-label={t('password')}>
+                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password">
                   <Form.Control
                     id="password"
                     name="password"
@@ -85,13 +86,14 @@ function SignupPage() {
                     value={formik.values.password}
                     onBlur={formik.handleBlur}
                     placeholder={t('password')}
+                    aria-label={t('password')}
                     isInvalid={formik.touched.password && formik.errors.password}
                   />
                   <Form.Control.Feedback type="invalid" tooltip>{formik.errors.password}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="confirmPassword">
-                <FloatingLabel label={t('confirmPassword')} className="mb-3" htmlFor="confirmPassword" aria-label={t('confirmPassword')}>
+                <FloatingLabel label={t('confirmPassword')} className="mb-3" htmlFor="confirmPassword">
                   <Form.Control
                     id="confirmPassword"
                     name="confirmPassword"
@@ -100,6 +102,7 @@ function SignupPage() {
                     value={formik.values.confirmPassword}
                     onBlur={formik.handleBlur}
                     placeholder={t('confirmPassword')}
+                    aria-label={t('confirmPassword')}
                     isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}
                   />
                   <Form.Control.Feedback type="invalid" tooltip>{formik.errors.confirmPassword}</Form.Control.Feedback>
