@@ -6,7 +6,7 @@
     "npm": "8.5.4"
   },
   "description": "a simple Slack analog based on socket.io",
-  "main": "src/index.js",
+  "main": "src/init.jsx",
   "type": "module",
   "scripts": {
     "test": "jest",

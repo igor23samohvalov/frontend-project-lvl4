@@ -1,6 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.css';
-import './main.css';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Provider, ErrorBoundary } from '@rollbar/react';

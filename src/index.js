@@ -1,29 +1,23 @@
-/* eslint-disable react/jsx-filename-extension */
 // @ts-nocheck
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
-import React from 'react';
-import { Provider } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
+import './main.css';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-// @ts-ignore
-import App from './App.jsx';
-import store from './slices/index.js';
-import './hook/i18n.js';
+import init from './init.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const root = document.querySelector('#chat');
+const app = () => {
+  const vdom = init();
+  ReactDOM.render(vdom, document.querySelector('#chat'));
 
-ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
-  root,
-);
+  return vdom;
+};
+
+app();
+
+export default app;
