@@ -9,7 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import useAuth from '../hook/useAuth.js';
-import signImage from '../assets/images/try1.jpg';
+import signImage from '../assets/images/signup.jpg';
 
 function SignupPage() {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 // @ts-check
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
 
@@ -22,13 +22,8 @@ module.exports = {
     historyApiFallback: true,
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: './index.html',
-    }),
+    new MiniCssExtractPlugin(),
   ],
-  // plugins: [
-  //   new MiniCssExtractPlugin(),
-  // ],
   module: {
     rules: [
       {
@@ -42,10 +37,15 @@ module.exports = {
       {
         test: /\.(sass|less|css)$/,
         use: [
-          // { loader: MiniCssExtractPlugin.loader },
-          { loader: 'style-loader' },
+          { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader' },
-          { loader: 'less-loader' },
+        ],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          { loader: 'css-loader' },
           { loader: 'postcss-loader' },
           { loader: 'sass-loader' },
         ],
