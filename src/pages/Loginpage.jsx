@@ -24,9 +24,9 @@ function Loginpage() {
     },
     validationSchema: yup.object({
       username: yup.string()
-        .required(t('required')),
+        .required(t('incorrectLogs')),
       password: yup.string()
-        .required(t('required')),
+        .required(t('incorrectLogs')),
     }),
     onSubmit: (values, actions) => {
       axios.post('/api/v1/login', values)
