@@ -29,6 +29,7 @@ function Loginpage() {
         .required(t('required')),
     }),
     onSubmit: (values, actions) => {
+      console.log(values)
       axios.post('/api/v1/login', values)
         .then((res) => {
           localStorage.setItem('userId', JSON.stringify(res.data));
