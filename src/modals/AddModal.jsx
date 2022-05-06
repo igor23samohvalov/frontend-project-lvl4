@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import {
+  Modal, Button, Form, FloatingLabel,
+} from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -61,25 +63,28 @@ function AddModal({ show, onHide, ap }) {
       <Form onSubmit={formik.handleSubmit}>
         <Modal.Body>
           <Form.Group>
-            <Form.Control
-              type="text"
-              name="newChannel"
-              value={formik.values.newChannel}
-              onChange={formik.handleChange}
-              id="newChannel"
-              isInvalid={formik.errors.newChannel}
-              ref={refAddChnInput}
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.newChannel}
-            </Form.Control.Feedback>
+            <FloatingLabel label="Имя канала" className="mb-3" htmlFor="newChannel">
+              <Form.Control
+                type="text"
+                name="newChannel"
+                value={formik.values.newChannel}
+                onChange={formik.handleChange}
+                placeholder="Имя канала"
+                id="newChannel"
+                isInvalid={formik.errors.newChannel}
+                ref={refAddChnInput}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.newChannel}
+              </Form.Control.Feedback>
+            </FloatingLabel>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onHide}>
             {t('cancel')}
           </Button>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" role="button">
             {t('submit')}
           </Button>
         </Modal.Footer>

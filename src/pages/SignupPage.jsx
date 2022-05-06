@@ -61,7 +61,7 @@ function SignupPage() {
             >
               <h1 className="text-center mb-4">{t('registration')}</h1>
               <Form.Group md="4" controlId="validationFormikUsername">
-                <FloatingLabel label={t('signupUsername')} className="mb-3">
+                <FloatingLabel label={t('signupUsername')} className="mb-3" htmlFor="username">
                   <Form.Control
                     id="username"
                     name="username"
@@ -76,7 +76,7 @@ function SignupPage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="validationFormikPassword">
-                <FloatingLabel label={t('password')} className="mb-3">
+                <FloatingLabel label={t('password')} className="mb-3" htmlFor="password">
                   <Form.Control
                     id="password"
                     name="password"
@@ -91,7 +91,7 @@ function SignupPage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group md="4" controlId="validationFormikPassword">
-                <FloatingLabel label={t('confirmPassword')} className="mb-3">
+                <FloatingLabel label={t('confirmPassword')} className="mb-3" htmlFor="confirmPassword">
                   <Form.Control
                     id="confirmPassword"
                     name="confirmPassword"
@@ -106,7 +106,7 @@ function SignupPage() {
                 </FloatingLabel>
               </Form.Group>
               <Form.Group className="d-grid gap-2">
-                <Button variant="outline-primary" size="md" type="submit">{t('signup')}</Button>
+                <Button variant="outline-primary" size="md" type="submit" role="button">{t('signup')}</Button>
               </Form.Group>
             </Form>
           </Card.Body>

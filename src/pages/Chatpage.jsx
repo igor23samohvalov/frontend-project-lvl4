@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import { io } from 'socket.io-client';
 import {
-  Col, Container, Row, Button, Form, InputGroup,
+  Col, Container, Row, Button, Form, InputGroup, FloatingLabel,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,7 +20,7 @@ import AddModal from '../modals/AddModal.jsx';
 function Chatpage() {
   const dispatch = useDispatch();
   const { activeChannel, setActiveChn } = useAuth();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
   const [isAddModal, setAddModal] = useState(false);
   const hideAddModal = () => setAddModal(false);
@@ -30,7 +30,7 @@ function Chatpage() {
   const socket = useRef(null);
 
   useEffect(() => {
-    filter.loadDictionary(i18n.resolvedLanguage);
+    filter.loadDictionary('en');
     filter.list();
 
     const authToken = {
@@ -123,6 +123,8 @@ function Chatpage() {
               variant="outline-secondary"
               className="p-0"
               onClick={() => setAddModal(true)}
+              role="button"
+              name="+"
             >
               +
             </Button>
@@ -137,26 +139,30 @@ function Chatpage() {
             <div className="mt-auto px-5 py-3">
               <Form onSubmit={formik.handleSubmit}>
                 <InputGroup>
-                  <Form.Control
-                    size="lg"
-                    type="text"
-                    id="message"
-                    name="message"
-                    onChange={(e) => {
-                      disableSubmit(e.target.value.length);
-                      formik.handleChange(e);
-                    }}
-                    value={formik.values.message}
-                    placeholder={t('messageInput')}
-                    ref={msgInput}
-                  />
-                  <Button
-                    variant="outline-secondary"
-                    type="submit"
-                    disabled={isEmptyInput}
-                  >
-                    {'->'}
-                  </Button>
+                  <FloatingLabel label={t('messageInput')} htmlFor="message" className="w-100">
+                    <Form.Control
+                      size="lg"
+                      type="text"
+                      id="message"
+                      name="message"
+                      onChange={(e) => {
+                        disableSubmit(e.target.value.length);
+                        formik.handleChange(e);
+                      }}
+                      value={formik.values.message}
+                      placeholder={t('messageInput')}
+                      ref={msgInput}
+                    />
+                    <Button
+                      variant="outline-secondary"
+                      type="submit"
+                      disabled={isEmptyInput}
+                      role="button"
+                      name="Отправить"
+                    >
+                      {'->'}
+                    </Button>
+                  </FloatingLabel>
                 </InputGroup>
               </Form>
             </div>
