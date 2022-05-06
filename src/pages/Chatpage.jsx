@@ -55,6 +55,7 @@ function Chatpage() {
   useEffect(() => {
     socket.current = io();
     socket.current.on('newMessage', (message) => {
+      console.log('new message')
       msgInput.current.disabled = false;
       dispatch(messagesActions.addMessage(message));
 
@@ -90,7 +91,6 @@ function Chatpage() {
     },
     onSubmit: (values) => {
       msgInput.current.disabled = true;
-      console.log(values)
       socket.current.timeout(2000).emit('newMessage', {
         text: filter.clean(values.message),
         author: JSON.parse(localStorage.getItem('userId')).username,
@@ -106,7 +106,6 @@ function Chatpage() {
   });
 
   const disableSubmit = (length) => {
-    console.log('whatever')
     if (length === 0) {
       setDisable(true);
     } else {
