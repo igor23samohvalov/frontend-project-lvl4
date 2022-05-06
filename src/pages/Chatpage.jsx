@@ -90,7 +90,7 @@ function Chatpage() {
     },
     onSubmit: (values) => {
       msgInput.current.disabled = true;
-      socket.current.timeout(2000).emit('newMessage', {
+      socket.current.emit('newMessage', {
         text: filter.clean(values.message),
         username: JSON.parse(localStorage.getItem('userId')).username,
         channelId: activeChannel,
