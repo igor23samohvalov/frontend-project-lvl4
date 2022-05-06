@@ -31,7 +31,7 @@ function Channel(props) {
           variant={activeChannel === channelId ? 'secondary' : 'light'}
           className="w-100 text-start"
           role="button"
-          name={name}
+          aria-label={name}
         >
           <span className="me-1">#</span>
           {name}
@@ -47,7 +47,7 @@ function Channel(props) {
         variant={activeChannel === channelId ? 'secondary' : 'light'}
         className="w-100 rounded-0 text-start px-0 split-button-align"
         role="button"
-        name={name}
+        aria-label={name}
       >
         <Dropdown.Item
           onClick={() => setRemoveModal(true)}

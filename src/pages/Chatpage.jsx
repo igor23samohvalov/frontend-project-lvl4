@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import { io } from 'socket.io-client';
 import {
-  Col, Container, Row, Button, Form, InputGroup, FloatingLabel,
+  Col, Container, Row, Button, Form, InputGroup,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
@@ -124,7 +124,6 @@ function Chatpage() {
               className="p-0"
               onClick={() => setAddModal(true)}
               role="button"
-              name="+"
               aria-label="+"
             >
               +
@@ -140,30 +139,29 @@ function Chatpage() {
             <div className="mt-auto px-5 py-3">
               <Form onSubmit={formik.handleSubmit}>
                 <InputGroup>
-                  <FloatingLabel label={t('messageInput')} htmlFor="message" className="w-100" aria-label={t('messageInput')}>
-                    <Form.Control
-                      size="lg"
-                      type="text"
-                      id="message"
-                      name="message"
-                      onChange={(e) => {
-                        disableSubmit(e.target.value.length);
-                        formik.handleChange(e);
-                      }}
-                      value={formik.values.message}
-                      placeholder={t('messageInput')}
-                      ref={msgInput}
-                    />
-                    <Button
-                      variant="outline-secondary"
-                      type="submit"
-                      disabled={isEmptyInput}
-                      role="button"
-                      aria-label="Отправить"
-                    >
-                      {'->'}
-                    </Button>
-                  </FloatingLabel>
+                  <Form.Control
+                    size="lg"
+                    type="text"
+                    id="message"
+                    name="message"
+                    onChange={(e) => {
+                      disableSubmit(e.target.value.length);
+                      formik.handleChange(e);
+                    }}
+                    value={formik.values.message}
+                    placeholder={t('messageInput')}
+                    ref={msgInput}
+                    aria-label="Новое сообщение"
+                  />
+                  <Button
+                    variant="outline-secondary"
+                    type="submit"
+                    disabled={isEmptyInput}
+                    role="button"
+                    aria-label="Отправить"
+                  >
+                    {'->'}
+                  </Button>
                 </InputGroup>
               </Form>
             </div>
