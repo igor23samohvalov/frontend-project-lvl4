@@ -95,6 +95,7 @@ function Chatpage() {
         username: JSON.parse(localStorage.getItem('userId')).username,
         channelId: activeChannel,
       }, (err) => {
+        console.log('hello')
         if (err) {
           notify(t('networkError'), 'error');
           msgInput.current.disabled = false;
