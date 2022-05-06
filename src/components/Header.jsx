@@ -15,11 +15,7 @@ function Header() {
   return (
     <Navbar bg="white" expand="lg" className="shadow-sm navbar-light bg-white" style={{ height: '56px' }}>
       <Container>
-        <NavLink to="/" style={{ textDecoration: 'none' }}>
-          <Navbar.Brand>
-            Hexlet Chat
-          </Navbar.Brand>
-        </NavLink>
+        <Navbar.Brand as={NavLink} to="/" style={{ textDecoration: 'none' }}>{t('brandLogo')}</Navbar.Brand>
         {isLogged
           ? <Button variant="primary" className="align-self-end" onClick={handleClick}>{t('logOut')}</Button>
           : null}

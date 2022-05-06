@@ -1,5 +1,6 @@
 export default {
   translation: {
+    brandLogo: 'Hexlet Chat',
     logOut: 'Выйти',
     loginUsername: 'Ваш ник',
     password: 'Пароль',

@@ -7,9 +7,6 @@ const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
   mode,
-  entry: {
-    main: './src/index.js',
-  },
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -21,7 +18,7 @@ module.exports = {
     compress: true,
     port: 8090,
     host: '0.0.0.0',
-    publicPath: '/assets/',
+    // publicPath: '/assets/',
     historyApiFallback: true,
   },
   plugins: [
