@@ -60,7 +60,7 @@ function SignupPage() {
               noValidate
             >
               <h1 className="text-center mb-4">{t('registration')}</h1>
-              <Form.Group md="4" controlId="validationFormikUsername">
+              <Form.Group md="4" controlId="username">
                 <FloatingLabel label={t('signupUsername')} className="mb-3" htmlFor="username" aria-label={t('signupUsername')}>
                   <Form.Control
                     id="username"
@@ -75,7 +75,7 @@ function SignupPage() {
                   <Form.Control.Feedback type="invalid" tooltip>{formik.errors.username}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
-              <Form.Group md="4" controlId="validationFormikPassword">
+              <Form.Group md="4" controlId="password">
                 <FloatingLabel label={t('password')} className="mb-3" htmlFor="password" aria-label={t('password')}>
                   <Form.Control
                     id="password"
@@ -90,7 +90,7 @@ function SignupPage() {
                   <Form.Control.Feedback type="invalid" tooltip>{formik.errors.password}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
-              <Form.Group md="4" controlId="validationFormikPassword">
+              <Form.Group md="4" controlId="confirmPassword">
                 <FloatingLabel label={t('confirmPassword')} className="mb-3" htmlFor="confirmPassword" aria-label={t('confirmPassword')}>
                   <Form.Control
                     id="confirmPassword"

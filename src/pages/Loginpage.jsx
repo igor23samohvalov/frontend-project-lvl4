@@ -29,7 +29,6 @@ function Loginpage() {
         .required(t('required')),
     }),
     onSubmit: (values, actions) => {
-      console.log(values)
       axios.post('/api/v1/login', values)
         .then((res) => {
           localStorage.setItem('userId', JSON.stringify(res.data));
@@ -61,7 +60,7 @@ function Loginpage() {
               noValidate
             >
               <h1 className="text-center mb-4">{t('logIn')}</h1>
-              <Form.Group md="46" controlId="validationFormikUsername">
+              <Form.Group md="46" controlId="username">
                 <FloatingLabel label={t('loginUsername')} className="mb-3" htmlFor="username" aria-label="Ваш ник">
                   <Form.Control
                     id="username"
@@ -76,7 +75,7 @@ function Loginpage() {
                   <Form.Control.Feedback type="invalid" tooltip>{formik.errors.username}</Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
-              <Form.Group md="6" controlId="validationFormikPassword">
+              <Form.Group md="6" controlId="password">
                 <FloatingLabel label={t('password')} className="mb-3" htmlFor="password" aria-label="Пароль">
                   <Form.Control
                     id="password"
