@@ -90,12 +90,11 @@ function Chatpage() {
     },
     onSubmit: (values) => {
       msgInput.current.disabled = true;
-      socket.current.emit('newMessage', {
+      socket.current.timeout(2000).emit('newMessage', {
         text: filter.clean(values.message),
         username: JSON.parse(localStorage.getItem('userId')).username,
         channelId: activeChannel,
       }, (err) => {
-        console.log('hello')
         if (err) {
           notify(t('networkError'), 'error');
           msgInput.current.disabled = false;
