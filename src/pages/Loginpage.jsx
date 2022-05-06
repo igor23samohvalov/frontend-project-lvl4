@@ -26,7 +26,7 @@ function Loginpage() {
       username: yup.string()
         .required(t('incorrectLogs')),
       password: yup.string()
-        .required(t('incorrectLogs')),
+        .required(t('required')),
     }),
     onSubmit: (values, actions) => {
       axios.post('/api/v1/login', values)
