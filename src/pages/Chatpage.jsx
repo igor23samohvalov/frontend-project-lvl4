@@ -23,11 +23,32 @@ function Chatpage() {
   const { t } = useTranslation();
   const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
   const [isAddModal, setAddModal] = useState(false);
-  const hideAddModal = () => setAddModal(false);
-  const msgInput = useRef(null);
+  const [isSubmitting, disableInput] = useState(false);
+  const [isEmptyInput, disableSubmitButon] = useState(true);
 
-  const [isEmptyInput, setDisable] = useState(true);
+  const msgInput = useRef(null);
   const socket = useRef(null);
+
+  const hideAddModal = () => setAddModal(false);
+
+  const formik = useFormik({
+    initialValues: {
+      message: '',
+    },
+    onSubmit: (values) => {
+      disableInput(true);
+      socket.current.timeout(2000).emit('newMessage', {
+        text: filter.clean(values.message),
+        username: JSON.parse(localStorage.getItem('userId')).username,
+        channelId: activeChannel,
+      }, (err) => {
+        if (err) {
+          notify(t('networkError'), 'error');
+          disableInput(false);
+        }
+      });
+    },
+  });
 
   useEffect(() => {
     filter.loadDictionary('en');
@@ -55,11 +76,11 @@ function Chatpage() {
   useEffect(() => {
     socket.current = io();
     socket.current.on('newMessage', (message) => {
-      msgInput.current.disabled = false;
       dispatch(messagesActions.addMessage(message));
 
-      setDisable(true);
-      msgInput.current.value = '';
+      disableInput(false);
+      disableSubmitButon(true);
+      formik.resetForm();
       msgInput.current.focus();
     });
     socket.current.on('newChannel', (channel) => {
@@ -84,30 +105,11 @@ function Chatpage() {
     return () => socket.current.disconnect();
   }, []);
 
-  const formik = useFormik({
-    initialValues: {
-      message: '',
-    },
-    onSubmit: (values) => {
-      msgInput.current.disabled = true;
-      socket.current.timeout(2000).emit('newMessage', {
-        text: filter.clean(values.message),
-        username: JSON.parse(localStorage.getItem('userId')).username,
-        channelId: activeChannel,
-      }, (err) => {
-        if (err) {
-          notify(t('networkError'), 'error');
-          msgInput.current.disabled = false;
-        }
-      });
-    },
-  });
-
   const disableSubmit = (length) => {
     if (length === 0) {
-      setDisable(true);
+      disableSubmitButon(true);
     } else {
-      setDisable(false);
+      disableSubmitButon(false);
     }
   };
 
@@ -150,6 +152,7 @@ function Chatpage() {
                     placeholder={t('messageInput')}
                     ref={msgInput}
                     aria-label="Новое сообщение"
+                    disabled={isSubmitting}
                   />
                   <Button
                     variant="outline-secondary"
