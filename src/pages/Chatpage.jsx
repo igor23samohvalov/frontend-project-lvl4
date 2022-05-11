@@ -17,7 +17,7 @@ import useAuth from '../hook/useAuth.js';
 import ChatStat from '../components/ChatStat.jsx';
 import AddModal from '../modals/AddModal.jsx';
 
-function Chatpage() {
+function Chatpage({ socket }) {
   const dispatch = useDispatch();
   const { activeChannel, setActiveChn } = useAuth();
   const { t } = useTranslation();
@@ -27,7 +27,6 @@ function Chatpage() {
   const [isEmptyInput, disableSubmitButon] = useState(true);
 
   const msgInput = useRef(null);
-  const socket = useRef(null);
 
   const hideAddModal = () => setAddModal(false);
 
@@ -37,7 +36,7 @@ function Chatpage() {
     },
     onSubmit: (values) => {
       disableInput(true);
-      socket.current.timeout(2000).emit('newMessage', {
+      socket.timeout(2000).emit('newMessage', {
         text: filter.clean(values.message),
         username: JSON.parse(localStorage.getItem('userId')).username,
         channelId: activeChannel,
@@ -74,9 +73,9 @@ function Chatpage() {
   }, []);
 
   useEffect(() => {
-    socket.current = io();
+    // socket.current = io();
 
-    socket.current.on('newMessage', (message) => {
+    socket.on('newMessage', (message) => {
       dispatch(messagesActions.addMessage(message));
 
       disableInput(false);
@@ -84,26 +83,26 @@ function Chatpage() {
       formik.resetForm();
       msgInput.current.focus();
     });
-    socket.current.on('newChannel', (channel) => {
+    socket.on('newChannel', (channel) => {
       dispatch(channelsActions.addChannel(channel));
       setAddModal(false);
       setActiveChn(channel.id);
       notify(t('successAddChannel'), 'success');
     });
-    socket.current.on('removeChannel', ({ id }) => {
+    socket.on('removeChannel', ({ id }) => {
       setActiveChn(1);
       dispatch(channelsActions.removeChannel(id));
       notify(t('successRemoveChannel'), 'success');
     });
-    socket.current.on('renameChannel', ({ id, name }) => {
+    socket.on('renameChannel', ({ id, name }) => {
       dispatch(channelsActions.renameChannel({ id, changes: { name } }));
       notify(t('successRenameChannel'), 'success');
     });
-    socket.current.on('disconnect', () => {
+    socket.on('disconnect', () => {
       notify(t('disconnected'), 'error');
     });
 
-    return () => socket.current.disconnect();
+    return () => socket.disconnect();
   }, []);
 
   const disableSubmit = (length) => {
@@ -129,9 +128,9 @@ function Chatpage() {
             >
               +
             </Button>
-            <AddModal show={isAddModal} onHide={hideAddModal} ap={socket.current} />
+            <AddModal show={isAddModal} onHide={hideAddModal} ap={socket} />
           </div>
-          <Channels socket={socket.current} />
+          <Channels socket={socket} />
         </Col>
         <Col className="p-0 h-100">
           <div className="d-flex flex-column h-100">

@@ -14,14 +14,14 @@ const rollbarConfig = {
   environment: 'production',
 };
 
-function App() {
+function App({ socket }) {
   return (
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route index path="/" element={<RequireAuth><Chatpage /></RequireAuth>} />
+              <Route index path="/" element={<RequireAuth><Chatpage socket={socket} /></RequireAuth>} />
               <Route path="login" element={<Loginpage />} />
               <Route path="signup" element={<SignupPage />} />
               <Route path="*" element={<Notfoundpage />} />
