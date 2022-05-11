@@ -75,6 +75,7 @@ function Chatpage() {
 
   useEffect(() => {
     socket.current = io();
+
     socket.current.on('newMessage', (message) => {
       dispatch(messagesActions.addMessage(message));
 
