@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
-  SplitButton, ListGroup, Dropdown, Button,
+  Dropdown, ListGroup, Button,
 } from 'react-bootstrap';
 import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import useAuth from '../hook/useAuth.js';
 import RnmModal from '../modals/RnmModal.jsx';
 import RemoveModal from '../modals/RemoveModal.jsx';
@@ -13,7 +13,7 @@ function Channel(props) {
     name, channelId = 1, socket, isRemovable,
   } = props;
   const { activeChannel, setActiveChn } = useAuth();
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   const [isRnmModal, setRnmModal] = useState(false);
   const [isRemoveModal, setRemoveModal] = useState(false);
@@ -41,28 +41,15 @@ function Channel(props) {
 
   return (
     <ListGroup.Item as="li" className={classes} onClick={toggleChannel} aria-label="list-item">
-      <SplitButton
-        title={`# ${name}`}
-        variant={activeChannel === channelId ? 'secondary' : 'light'}
-        className="w-100 rounded-0 text-start px-0 split-button-align"
-        id={name}
-        aria-label="Управление каналом"
-      >
-        <Dropdown.Item
-          onClick={() => setRemoveModal(true)}
-          eventKey="1"
-          aria-label="Удалить"
-        >
-          {t('remove')}
-        </Dropdown.Item>
-        <Dropdown.Item
-          eventKey="2"
-          onClick={() => setRnmModal(true)}
-          aria-label="Переименовать"
-        >
-          {t('rename')}
-        </Dropdown.Item>
-      </SplitButton>
+      <Dropdown>
+        <Dropdown.Toggle variant={activeChannel === channelId ? 'secondary' : 'light'} id={name} aria-label={name}>
+          {`# ${name}`}
+        </Dropdown.Toggle>
+        <Dropdown.Menu aria-label="Управление каналом">
+          <Dropdown.Item onClick={() => setRemoveModal(true)} aria-label="Удалить">Удалить</Dropdown.Item>
+          <Dropdown.Item onClick={() => setRnmModal(true)} aria-label="Переименовать">Переименовать</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
       <RnmModal
         show={isRnmModal}
         onHide={hideRnmModal}
