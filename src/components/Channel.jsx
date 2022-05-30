@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Dropdown, ListGroup, Button,
+  ListGroup, Button, SplitButton, Dropdown,
 } from 'react-bootstrap';
 import cn from 'classnames';
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hook/useAuth.js';
 import RnmModal from '../modals/RnmModal.jsx';
 import RemoveModal from '../modals/RemoveModal.jsx';
@@ -13,16 +13,22 @@ function Channel(props) {
     name, channelId = 1, socket, isRemovable,
   } = props;
   const { activeChannel, setActiveChn } = useAuth();
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const [isRnmModal, setRnmModal] = useState(false);
   const [isRemoveModal, setRemoveModal] = useState(false);
+  const [direction, setDirection] = useState('down');
 
   const hideRnmModal = () => setRnmModal(false);
   const hideRemoveModal = () => setRemoveModal(false);
 
   const toggleChannel = () => setActiveChn(channelId);
   const classes = cn('p-0');
+
+  useEffect(() => {
+    if (window.innerWidth > 767) setDirection('down');
+    else setDirection('up');
+  }, [window.innerWidth]);
 
   if (!isRemovable) {
     return (
@@ -40,16 +46,29 @@ function Channel(props) {
   }
 
   return (
-    <ListGroup.Item as="button" className={classes} onClick={toggleChannel} aria-label={name}>
-      <Dropdown>
-        <Dropdown.Toggle variant={activeChannel === channelId ? 'secondary' : 'light'} id={name} aria-label="Управление каналом">
-          {`# ${name}`}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => setRemoveModal(true)} aria-label="Удалить">Удалить</Dropdown.Item>
-          <Dropdown.Item onClick={() => setRnmModal(true)} aria-label="Переименовать">Переименовать</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+    <ListGroup.Item as="li" className={classes} onClick={toggleChannel}>
+      <SplitButton
+        title={`# ${name}`}
+        variant={activeChannel === channelId ? 'secondary' : 'light'}
+        className="w-100 rounded-0 text-start px-0 split-button-align"
+        aria-label={name}
+        drop={direction}
+      >
+        <Dropdown.Item
+          onClick={() => setRemoveModal(true)}
+          eventKey="1"
+          aria-label="Удалить"
+        >
+          {t('remove')}
+        </Dropdown.Item>
+        <Dropdown.Item
+          eventKey="2"
+          onClick={() => setRnmModal(true)}
+          aria-label="Управление каналом"
+        >
+          {t('rename')}
+        </Dropdown.Item>
+      </SplitButton>
       <RnmModal
         show={isRnmModal}
         onHide={hideRnmModal}

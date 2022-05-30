@@ -6,7 +6,6 @@
 
 .split-button-align {
   display: flex;
-
 }
 
 .split-button-align button:first-child {
@@ -19,4 +18,19 @@
 
 .split-button-align button:last-child {
   align-self: end;
+}
+
+#channelsColumn {
+  padding-top: 48px;
+}
+
+@media (max-width: 767px) {
+  #channelsColumn {
+    height: 15%;
+    padding-top: 0;
+    overflow-y: auto;
+  }
+  #messagesColumn {
+    height: 85%;
+  }
 }

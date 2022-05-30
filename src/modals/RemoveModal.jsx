@@ -13,7 +13,6 @@ function RemoveModal(props) {
   const { t } = useTranslation();
 
   const onRemoveChannel = () => {
-    console.log('removeChannel');
     setActiveChn(1);
     onHide();
   };
