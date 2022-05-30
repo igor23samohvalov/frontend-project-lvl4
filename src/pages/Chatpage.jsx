@@ -27,17 +27,6 @@ function Chatpage({ socket }) {
     dispatch(fetchChannels(authToken));
   }, []);
 
-  useEffect(() => {
-    if (document.querySelector('.dropdown-toggle')) {
-      const splitManagment = document.querySelector('.dropdown-toggle');
-      splitManagment.ariaLabel = 'Управление каналом';
-    }
-    if (document.querySelector('.dropdown .btn')) {
-      const namedButton = document.querySelector('.dropdown .btn');
-      namedButton.ariaLabel = namedButton.nextSibling.id;
-    }
-  });
-
   return (
     <Container className="h-100 rounded shadow my-4 overflow-hidden">
       <Row className="h-100 bg-white flex-md-row">

@@ -47,6 +47,7 @@ function Channel(props) {
         className="w-100 rounded-0 text-start px-0 split-button-align"
         id={name}
       >
+        Управление каналом
         <Dropdown.Item
           onClick={() => setRemoveModal(true)}
           eventKey="1"
