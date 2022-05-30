@@ -65,13 +65,13 @@ function Channel(props) {
       <RnmModal
         show={isRnmModal}
         onHide={hideRnmModal}
-        ap={socket}
+        socket={socket}
         id={channelId}
       />
       <RemoveModal
         show={isRemoveModal}
         onHide={hideRemoveModal}
-        ap={socket}
+        socket={socket}
         id={channelId}
       />
     </ListGroup.Item>

@@ -1,117 +1,31 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
-import { useFormik } from 'formik';
-import { io } from 'socket.io-client';
 import {
-  Col, Container, Row, Button, Form, InputGroup,
+  Col, Container, Row, Button,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { ToastContainer, toast } from 'react-toastify';
-import filter from 'leo-profanity';
-import { actions as messagesActions } from '../slices/messagesSlice.js';
-import { actions as channelsActions } from '../slices/channelsSlice.js';
+import { fetchChannels } from '../slices/channelsSlice.js';
 import Channels from '../components/Channels.jsx';
 import Messages from '../components/Messages.jsx';
+import MessageForm from '../components/MessageForm.jsx';
 import useAuth from '../hook/useAuth.js';
 import ChatStat from '../components/ChatStat.jsx';
 import AddModal from '../modals/AddModal.jsx';
 
 function Chatpage({ socket }) {
   const dispatch = useDispatch();
-  const { activeChannel, setActiveChn } = useAuth();
+  const { activeChannel } = useAuth();
   const { t } = useTranslation();
-  const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
+
   const [isAddModal, setAddModal] = useState(false);
-  const [isSubmitting, disableInput] = useState(false);
-  const [isEmptyInput, disableSubmitButon] = useState(true);
-
-  const msgInput = useRef(null);
-
   const hideAddModal = () => setAddModal(false);
 
-  const formik = useFormik({
-    initialValues: {
-      message: '',
-    },
-    onSubmit: (values) => {
-      disableInput(true);
-      socket.timeout(2000).emit('newMessage', {
-        text: filter.clean(values.message),
-        username: JSON.parse(localStorage.getItem('userId')).username,
-        channelId: activeChannel,
-      }, (err) => {
-        if (err) {
-          notify(t('networkError'), 'error');
-          disableInput(false);
-        }
-      });
-    },
-  });
-
   useEffect(() => {
-    filter.loadDictionary('en');
-    filter.list();
-
     const authToken = {
       Authorization: `Bearer ${JSON.parse(localStorage.getItem('userId')).token}`,
     };
-    const fetchData = async () => {
-      const { data } = await axios.get('/api/v1/data', { headers: authToken });
-      const { messages, channels, currentChannelId } = data;
-      setActiveChn(currentChannelId);
-
-      channels.forEach((channel) => {
-        dispatch(channelsActions.addChannel(channel));
-      });
-      messages.forEach((message) => {
-        dispatch(messagesActions.addMessage(message));
-      });
-    };
-    fetchData();
-    msgInput.current.focus();
+    dispatch(fetchChannels(authToken));
   }, []);
-
-  useEffect(() => {
-    // socket.current = io();
-
-    socket.on('newMessage', (message) => {
-      dispatch(messagesActions.addMessage(message));
-
-      disableInput(false);
-      disableSubmitButon(true);
-      formik.resetForm();
-      msgInput.current.focus();
-    });
-    socket.on('newChannel', (channel) => {
-      dispatch(channelsActions.addChannel(channel));
-      setAddModal(false);
-      setActiveChn(channel.id);
-      notify(t('successAddChannel'), 'success');
-    });
-    socket.on('removeChannel', ({ id }) => {
-      setActiveChn(1);
-      dispatch(channelsActions.removeChannel(id));
-      notify(t('successRemoveChannel'), 'success');
-    });
-    socket.on('renameChannel', ({ id, name }) => {
-      dispatch(channelsActions.renameChannel({ id, changes: { name } }));
-      notify(t('successRenameChannel'), 'success');
-    });
-    socket.on('disconnect', () => {
-      notify(t('disconnected'), 'error');
-    });
-
-    return () => socket.disconnect();
-  }, []);
-
-  const disableSubmit = (length) => {
-    if (length === 0) {
-      disableSubmitButon(true);
-    } else {
-      disableSubmitButon(false);
-    }
-  };
 
   return (
     <Container className="h-100 rounded shadow my-4 overflow-hidden">
@@ -128,7 +42,7 @@ function Chatpage({ socket }) {
             >
               +
             </Button>
-            <AddModal show={isAddModal} onHide={hideAddModal} ap={socket} />
+            <AddModal show={isAddModal} onHide={hideAddModal} socket={socket} />
           </div>
           <Channels socket={socket} />
         </Col>
@@ -137,37 +51,10 @@ function Chatpage({ socket }) {
             <ChatStat />
             <Messages activeId={activeChannel} />
             <div className="mt-auto px-5 py-3">
-              <Form onSubmit={formik.handleSubmit}>
-                <InputGroup>
-                  <Form.Control
-                    size="lg"
-                    type="text"
-                    id="message"
-                    name="message"
-                    onChange={(e) => {
-                      disableSubmit(e.target.value.length);
-                      formik.handleChange(e);
-                    }}
-                    value={formik.values.message}
-                    placeholder={t('messageInput')}
-                    ref={msgInput}
-                    aria-label="Новое сообщение"
-                    disabled={isSubmitting}
-                  />
-                  <Button
-                    variant="outline-secondary"
-                    type="submit"
-                    disabled={isEmptyInput}
-                    aria-label="Отправить"
-                  >
-                    {'->'}
-                  </Button>
-                </InputGroup>
-              </Form>
+              <MessageForm socket={socket} activeChannel={activeChannel} />
             </div>
           </div>
         </Col>
-        <ToastContainer />
       </Row>
     </Container>
   );

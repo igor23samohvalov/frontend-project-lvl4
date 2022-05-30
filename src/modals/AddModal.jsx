@@ -1,32 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Modal, Button, Form, FloatingLabel,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { ToastContainer, toast } from 'react-toastify';
 import { selectors as channelSelectors } from '../slices/channelsSlice.js';
+import useSocket from '../hook/useSocket.js';
+import useAuth from '../hook/useAuth.js';
 
 function isNameTaken(name, array) {
   const filtered = array.filter((chn) => chn.name === name);
   return filtered.length > 0;
 }
 
-function AddModal({ show, onHide, ap }) {
+function AddModal({ show, onHide, socket }) {
+  const [isFormDisabled, setDisabled] = useState(false);
+
+  const socketListener = useSocket();
+  const { setActiveChn } = useAuth();
+
   const channels = useSelector(channelSelectors.selectAll);
-  const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
   const { t } = useTranslation();
   const errors = {};
   const refAddChnInput = useRef(null);
-
-  useEffect(() => {
-    if (show) {
-      refAddChnInput.current.value = '';
-      refAddChnInput.current.disabled = false;
-      refAddChnInput.current.focus();
-    }
-  }, [show]);
 
   const validate = ({ newChannel }) => {
     if (!newChannel) {
@@ -37,23 +34,30 @@ function AddModal({ show, onHide, ap }) {
 
     return errors;
   };
+
   const formik = useFormik({
     initialValues: {
       newChannel: '',
     },
     validate,
-    onSubmit: ({ newChannel }) => {
-      refAddChnInput.current.disabled = true;
-      ap.timeout(2000).emit('newChannel', {
-        name: newChannel,
-      }, (err) => {
-        if (err) {
-          notify(t('networkError'), 'error');
-          refAddChnInput.current.disabled = false;
-        }
-      });
+    onSubmit: (values) => {
+      socketListener.newChannel(socket, values, setDisabled);
     },
   });
+
+  useEffect(() => {
+    if (show) {
+      setDisabled(false);
+      formik.resetForm();
+
+      socket.once('newChannel', ({ id }) => {
+        setActiveChn(id);
+        onHide();
+      });
+
+      refAddChnInput.current.focus();
+    }
+  }, [show]);
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -74,6 +78,7 @@ function AddModal({ show, onHide, ap }) {
                 id="newChannel"
                 isInvalid={formik.errors.newChannel}
                 ref={refAddChnInput}
+                disabled={isFormDisabled}
               />
               <Form.Control.Feedback type="invalid">
                 {formik.errors.newChannel}
@@ -90,7 +95,6 @@ function AddModal({ show, onHide, ap }) {
           </Button>
         </Modal.Footer>
       </Form>
-      <ToastContainer />
     </Modal>
   );
 }

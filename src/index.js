@@ -14,6 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = async () => {
   const socket = io();
+
   const vdom = await init(socket);
   ReactDOM.render(vdom, document.querySelector('#chat'));
 

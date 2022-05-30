@@ -8,6 +8,7 @@ import Notfoundpage from './pages/Notfoundpage.jsx';
 import { AuthProvider } from './hoc/AuthProvider.jsx';
 import RequireAuth from './hoc/RequireAuth.jsx';
 import SignupPage from './pages/SignupPage.jsx';
+import { SocketProvider } from './hoc/SocketProvider.jsx';
 
 const rollbarConfig = {
   accessToken: '6f54a7d386864e24855fca370fa325c3',
@@ -19,14 +20,16 @@ function App({ socket }) {
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
         <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index path="/" element={<RequireAuth><Chatpage socket={socket} /></RequireAuth>} />
-              <Route path="login" element={<Loginpage />} />
-              <Route path="signup" element={<SignupPage />} />
-              <Route path="*" element={<Notfoundpage />} />
-            </Route>
-          </Routes>
+          <SocketProvider>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index path="/" element={<RequireAuth><Chatpage socket={socket} /></RequireAuth>} />
+                <Route path="login" element={<Loginpage />} />
+                <Route path="signup" element={<SignupPage />} />
+                <Route path="*" element={<Notfoundpage />} />
+              </Route>
+            </Routes>
+          </SocketProvider>
         </AuthProvider>
       </ErrorBoundary>
     </Provider>

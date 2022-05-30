@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ToastContainer, toast } from 'react-toastify';
 import { Modal, Button } from 'react-bootstrap';
+import useSocket from '../hook/useSocket.js';
+import useAuth from '../hook/useAuth.js';
 
 function RemoveModal(props) {
   // eslint-disable-next-line object-curly-newline
-  const { show, onHide, id, ap } = props;
-  const notify = (phrase, state) => toast[state](phrase, { autoClose: 2000 });
+  const { show, onHide, id, socket } = props;
+
+  const socketListener = useSocket();
+  const { setActiveChn } = useAuth();
   const { t } = useTranslation();
-  const handleRemove = () => {
-    ap.timeout(2000).emit('removeChannel', { id }, (err) => {
-      if (err) {
-        notify(t('networkError'), 'error');
-      }
-    });
+
+  const onRemoveChannel = () => {
+    console.log('removeChannel');
+    setActiveChn(1);
     onHide();
+  };
+
+  useEffect(() => {
+    if (show) socket.once('removeChannel', onRemoveChannel);
+  }, [show]);
+
+  const handleRemove = () => {
+    socketListener.removeChannel(socket, id, onHide);
   };
 
   return (
@@ -31,7 +40,6 @@ function RemoveModal(props) {
           {t('remove')}
         </Button>
       </Modal.Footer>
-      <ToastContainer />
     </Modal>
   );
 }
