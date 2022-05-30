@@ -10,7 +10,6 @@ export function SocketProvider({ children }) {
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const value = {
     newMessage: (socket, message, channelId, setSubmitState) => {
-      console.log(socket.connected)
       socket.emit('newMessage', {
         text: message,
         username: JSON.parse(localStorage.getItem('userId')).username,
