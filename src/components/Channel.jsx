@@ -40,12 +40,12 @@ function Channel(props) {
   }
 
   return (
-    <ListGroup.Item as="li" className={classes} onClick={toggleChannel} aria-label="list-item">
+    <ListGroup.Item className="li" onClick={toggleChannel}>
       <Dropdown>
-        <Dropdown.Toggle variant={activeChannel === channelId ? 'secondary' : 'light'} id={name} aria-label={name}>
+        <Dropdown.Toggle variant={activeChannel === channelId ? 'secondary' : 'light'} id={name} aria-label="Управление каналом">
           {`# ${name}`}
         </Dropdown.Toggle>
-        <Dropdown.Menu aria-label="Управление каналом">
+        <Dropdown.Menu>
           <Dropdown.Item onClick={() => setRemoveModal(true)} aria-label="Удалить">Удалить</Dropdown.Item>
           <Dropdown.Item onClick={() => setRnmModal(true)} aria-label="Переименовать">Переименовать</Dropdown.Item>
         </Dropdown.Menu>
