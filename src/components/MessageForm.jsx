@@ -31,7 +31,7 @@ function MessageForm({ socket, activeChannel }) {
     },
     onSubmit: (values) => {
       setSubmitState(true);
-      const filteredMessage = filter.clean(values.message)
+      const filteredMessage = filter.clean(values.message);
       socketListener.newMessage(socket, filteredMessage, activeChannel, setSubmitState);
     },
   });

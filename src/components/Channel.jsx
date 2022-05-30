@@ -39,13 +39,15 @@ function Channel(props) {
     );
   }
   useEffect(() => {
-    if (!isRemovable) {
-      const splitManagment = document.querySelector(`#${name}`);
+    if (document.querySelector('.dropdown-toggle')) {
+      const splitManagment = document.querySelector('.dropdown-toggle');
       splitManagment.ariaLabel = 'Управление каналом';
+    }
+    if (document.querySelector('.dropdown .btn')) {
       const namedButton = document.querySelector('.dropdown .btn');
       namedButton.ariaLabel = name;
-    };
-  }, []);
+    }
+  });
 
   return (
     <ListGroup.Item as="li" className={classes} onClick={toggleChannel} aria-label="list-item">
