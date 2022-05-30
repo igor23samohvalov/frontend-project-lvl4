@@ -18,18 +18,18 @@ export function SocketProvider({ children }) {
     },
     newChannel: (socket, { newChannel }, setDisabled) => {
       setDisabled(true);
-      socket.timeout(2000).emit('newChannel', {
+      socket.emit('newChannel', {
         name: newChannel,
       });
     },
     renameChannel: (socket, { renamedChannel }, id, setDisabled) => {
-      socket.timeout(2000).emit('renameChannel', {
+      socket.emit('renameChannel', {
         id,
         name: renamedChannel,
       });
     },
     removeChannel: (socket, id) => {
-      socket.timeout(2000).emit('removeChannel', { id });
+      socket.emit('removeChannel', { id });
     },
   };
 

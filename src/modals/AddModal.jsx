@@ -41,7 +41,6 @@ function AddModal({ show, onHide, socket }) {
     },
     validate,
     onSubmit: (values) => {
-      console.log('канал создан', values.newChannel)
       socketListener.newChannel(socket, values, setDisabled);
     },
   });
