@@ -39,10 +39,12 @@ function Channel(props) {
     );
   }
   useEffect(() => {
-    const splitManagment = document.querySelector(`#${name}`);
-    splitManagment.ariaLabel = 'Управление каналом';
-    const namedButton = document.querySelector('.dropdown .btn');
-    namedButton.ariaLabel = name;
+    if (!isRemovable) {
+      const splitManagment = document.querySelector(`#${name}`);
+      splitManagment.ariaLabel = 'Управление каналом';
+      const namedButton = document.querySelector('.dropdown .btn');
+      namedButton.ariaLabel = name;
+    };
   }, []);
 
   return (
