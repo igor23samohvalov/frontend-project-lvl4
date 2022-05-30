@@ -46,8 +46,8 @@ function Channel(props) {
         variant={activeChannel === channelId ? 'secondary' : 'light'}
         className="w-100 rounded-0 text-start px-0 split-button-align"
         id={name}
+        aria-label="Управление каналом"
       >
-        Управление каналом
         <Dropdown.Item
           onClick={() => setRemoveModal(true)}
           eventKey="1"
