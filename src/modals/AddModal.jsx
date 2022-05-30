@@ -87,7 +87,7 @@ function AddModal({ show, onHide, socket }) {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onHide}>
+          <Button variant="secondary" onClick={onHide} aria-label="Отменить">
             {t('cancel')}
           </Button>
           <Button variant="primary" type="submit" aria-label="Отправить">

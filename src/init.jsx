@@ -17,7 +17,7 @@ export default async function init(socket = io()) {
   });
   socket.on('newChannel', (channel) => {
     store.dispatch(channelsActions.addChannel(channel));
-    notify('Канал добавлен', 'success');
+    notify('Канал создан', 'success');
   });
   socket.on('removeChannel', ({ id }) => {
     store.dispatch(channelsActions.removeChannel(id));

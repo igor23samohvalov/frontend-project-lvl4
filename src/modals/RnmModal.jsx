@@ -65,6 +65,7 @@ function RnmModal(props) {
             <Form.Control
               type="text"
               name="renamedChannel"
+              aria-label="Имя канала"
               value={formik.values.renamedChannel}
               onChange={formik.handleChange}
               id="renamedChannel"
