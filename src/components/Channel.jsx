@@ -40,7 +40,7 @@ function Channel(props) {
   }
 
   return (
-    <ListGroup.Item className="li" onClick={toggleChannel}>
+    <ListGroup.Item as="button" className={classes} onClick={toggleChannel} aria-label={name}>
       <Dropdown>
         <Dropdown.Toggle variant={activeChannel === channelId ? 'secondary' : 'light'} id={name} aria-label="Управление каналом">
           {`# ${name}`}
