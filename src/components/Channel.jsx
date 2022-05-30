@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   SplitButton, ListGroup, Dropdown, Button,
 } from 'react-bootstrap';
@@ -38,16 +38,6 @@ function Channel(props) {
       </ListGroup.Item>
     );
   }
-  useEffect(() => {
-    if (document.querySelector('.dropdown-toggle')) {
-      const splitManagment = document.querySelector('.dropdown-toggle');
-      splitManagment.ariaLabel = 'Управление каналом';
-    }
-    if (document.querySelector('.dropdown .btn')) {
-      const namedButton = document.querySelector('.dropdown .btn');
-      namedButton.ariaLabel = name;
-    }
-  });
 
   return (
     <ListGroup.Item as="li" className={classes} onClick={toggleChannel} aria-label="list-item">
